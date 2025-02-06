@@ -1,30 +1,29 @@
-<?php
-$this->extend('layouts/default');
-
-$this->section('content');
-?>
-<h1>Team and Service Provider Profiles</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Contact Details</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($teamMembers as $member) : ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Profiles</title>
+</head>
+<body>
+    <h1>Team Profiles</h1>
+    <table>
+        <thead>
             <tr>
-                <td><?= $member['name'] ?></td>
-                <td><?= $member['role'] ?></td>
-                <td><!-- Display contact details --></td>
-                <td>
-                    <a href="<?= site_url('customer/team/' . $member['id']) ?>" class="btn btn-info">View Profile</a>
-                </td>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Role</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<?php
-$this->endSection();
+        </thead>
+        <tbody>
+            <?php foreach ($profiles as $profile): ?>
+            <tr>
+                <td><?= $profile['user_id'] ?></td>
+                <td><?= $profile['name'] ?></td>
+                <td><?= $profile['role'] ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>
+</html>

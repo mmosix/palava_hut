@@ -1,22 +1,14 @@
-<?php
-$this->extend('layouts/default');
-
-$this->section('content');
-?>
-<h1>Project Manager Dashboard</h1>
-<div class="row">
-    <div class="col-md-4">
-        <h3>Assigned Projects</h3>
-        <p><!-- Display count of assigned projects --></p>
-    </div>
-    <div class="col-md-4">
-        <h3>Pending Tasks</h3>
-        <p><!-- Display count of pending tasks --></p>
-    </div>
-    <div class="col-md-4">
-        <h3>Budget Overview</h3>
-        <p><!-- Display budget overview --></p>
-    </div>
-</div>
-<?php
-$this->endSection();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Manager Dashboard</title>
+</head>
+<body>
+    <h1>Project Manager Dashboard</h1>
+    <p>Total Projects: <?= $projectCount ?></p>
+    <p>Total Tasks: <?= $taskCount ?></p>
+    <!-- Add additional dashboard metrics here -->
+</body>
+</html>

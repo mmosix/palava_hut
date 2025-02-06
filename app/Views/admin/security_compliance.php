@@ -1,11 +1,13 @@
-<?php
-$this->extend('layouts/default');
-
-$this->section('content');
-?>
-<h1>Security and Compliance</h1>
-<!-- Security and compliance content goes here -->
-<p>Monitor platform for security risks and handle GDPR, KYC, and data privacy compliance.</p>
-<!-- Add forms or tables to manage compliance records -->
-<?php
-$this->endSection();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Compliance</title>
+</head>
+<body>
+    <h1>Security Compliance</h1>
+    <p>Monitor platform security risks and handle compliance requirements.</p>
+    <!-- Add functionality for managing security compliance here -->
+</body>
+</html>

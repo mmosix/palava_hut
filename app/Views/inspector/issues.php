@@ -1,11 +1,13 @@
-<?php
-$this->extend('layouts/default');
-
-$this->section('content');
-?>
-<h1>Issue Resolution</h1>
-<!-- Issue resolution content goes here -->
-<p>Escalate unresolved quality issues to the admin.</p>
-<!-- Add forms or tables for issue resolution -->
-<?php
-$this->endSection();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Resolution</title>
+</head>
+<body>
+    <h1>Issue Resolution</h1>
+    <p>Manage unresolved quality issues and recommend corrective measures.</p>
+    <!-- Add functionality for issue resolution here -->
+</body>
+</html>

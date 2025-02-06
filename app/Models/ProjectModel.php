@@ -33,4 +33,15 @@ class ProjectModel extends Model
     {
         return $this->delete($id);
     }
+
+    public function getActiveProjects()
+    {
+        return $this->where('status', 'in_progress')->findAll(); // Fetch active projects
+    }
+
+    public function getProjectBudget($id)
+    {
+        return $this->select('budget')->where('id', $id)->first(); // Fetch budget for a specific project
+    }
+
 }

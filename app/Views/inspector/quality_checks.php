@@ -1,37 +1,31 @@
-<?php
-$this->extend('layouts/default');
-
-$this->section('content');
-?>
-<h1>Quality Checks</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Inspection ID</th>
-            <th>Project</th>
-            <th>Inspector</th>
-            <th>Status</th>
-            <th>Comments</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($qualityChecks as $check) : ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Checks</title>
+</head>
+<body>
+    <h1>Quality Checks</h1>
+    <table>
+        <thead>
             <tr>
-                <td><?= $check['inspection_id'] ?></td>
-                <td><?= $check['project_id'] ?></td>
-                <td><?= $check['inspector_id'] ?></td>
-                <td><?= $check['status'] ?></td>
-                <td><?= $check['comments'] ?></td>
-                <td>
-                    <a href="<?= site_url('inspector/quality-checks/edit/' . $check['inspection_id']) ?>" class="btn btn-warning">Edit</a>
-                    <form action="<?= site_url('inspector/quality-checks/delete/' . $check['inspection_id']) ?>" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
+                <th>Report ID</th>
+                <th>Inspection ID</th>
+                <th>Status</th>
+                <th>Comments</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<?php
-$this->endSection();
+        </thead>
+        <tbody>
+            <?php foreach ($qualityReports as $report): ?>
+            <tr>
+                <td><?= $report['id'] ?></td>
+                <td><?= $report['inspection_id'] ?></td>
+                <td><?= $report['status'] ?></td>
+                <td><?= $report['comments'] ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>
+</html>

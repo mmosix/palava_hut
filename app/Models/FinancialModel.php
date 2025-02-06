@@ -24,6 +24,22 @@ class FinancialModel extends Model
         return $this->where('id', $id)->first();
     }
 
+    public function getTotalRevenue()
+    {
+        return $this->where('status', 'paid')->selectSum('amount')->first(); // Fetch total revenue
+    }
+
+    public function getPendingPayments()
+    {
+        return $this->where('status', 'pending')->findAll(); // Fetch pending payments
+    }
+
+    public function getOverview()
+    {
+        return $this->select('SUM(amount) as totalRevenue, COUNT(id) as totalInvoices')->first(); // Fetch financial overview
+    }
+
+
     public function updateInvoice($id, $data)
     {
         return $this->update($id, $data);

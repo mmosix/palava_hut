@@ -24,6 +24,22 @@ class TaskModel extends Model
         return $this->where('id', $id)->first();
     }
 
+    public function getPendingTasks()
+    {
+        return $this->where('status', 'pending')->findAll(); // Fetch pending tasks
+    }
+
+    public function getCompletedTasks()
+    {
+        return $this->where('status', 'completed')->findAll(); // Fetch completed tasks
+    }
+
+    public function getTasksByProject($projectId)
+    {
+        return $this->where('project_id', $projectId)->findAll(); // Fetch tasks by project ID
+    }
+
+
     public function updateTask($id, $data)
     {
         return $this->update($id, $data);

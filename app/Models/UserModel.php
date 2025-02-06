@@ -9,15 +9,14 @@ class UserModel extends Model
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $allowedFields = ['email', 'password_hash', 'name', 'phone', 'role', 'status'];
+    protected $allowedFields = ['email', 'password_hash', 'name', 'phone', 'role', 'status', 'address', 'profile_picture', 'bio'];
 
-    public function createUser ($data)
+    public function createUser($data)
     {
-        $data['password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
         return $this->insert($data);
     }
 
-    public function getUser ($id = null)
+    public function getUser($id = null)
     {
         if ($id === null) {
             return $this->findAll();
@@ -25,13 +24,24 @@ class UserModel extends Model
         return $this->where('id', $id)->first();
     }
 
-    public function updateUser ($id, $data)
+    public function updateUser($id, $data)
     {
         return $this->update($id, $data);
     }
 
-    public function deleteUser ($id)
+    public function deleteUser($id)
     {
         return $this->delete($id);
     }
+
+    public function getActivityLogs()
+    {
+        return $this->db->table('audit_logs')->where('user_id', $this->id)->findAll(); // Fetch user activity logs
+    }
+
+    public function getRoles()
+    {
+        return $this->db->table('roles')->findAll(); // Fetch all roles
+    }
+
 }

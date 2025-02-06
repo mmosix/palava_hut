@@ -1,38 +1,31 @@
-<?php
-$this->extend('layouts/default');
-
-$this->section('content');
-?>
-<h1>Schedule Inspections</h1>
-<a href="<?= site_url('inspector/schedule/create') ?>" class="btn btn-primary">Schedule New Inspection</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Inspection ID</th>
-            <th>Project</th>
-            <th>Inspector</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($inspections as $inspection) : ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Inspection</title>
+</head>
+<body>
+    <h1>Schedule Inspection</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Inspection ID</th>
+                <th>Project ID</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($inspections as $inspection): ?>
             <tr>
                 <td><?= $inspection['id'] ?></td>
                 <td><?= $inspection['project_id'] ?></td>
-                <td><?= $inspection['inspector_id'] ?></td>
-                <td><?= $inspection['inspection_date'] ?></td>
+                <td><?= $inspection['date'] ?></td>
                 <td><?= $inspection['status'] ?></td>
-                <td>
-                    <a href="<?= site_url('inspector/schedule/edit/' . $inspection['id']) ?>" class="btn btn-warning">Edit</a>
-                    <form action="<?= site_url('inspector/schedule/delete/' . $inspection['id']) ?>" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<?php
-$this->endSection();
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>
+</html>

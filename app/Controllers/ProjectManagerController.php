@@ -20,26 +20,36 @@ class ProjectManagerController extends BaseController
 
     public function dashboard()
     {
-        return view('project_manager/dashboard');
+        $data['projectCount'] = $this->projectModel->countAll();
+        $data['taskCount'] = $this->taskModel->countAll();
+        return view('project_manager/dashboard', $data);
     }
+
 
     public function manageTasks()
     {
         $data['tasks'] = $this->taskModel->findAll();
+        $data['pendingTasks'] = $this->taskModel->getPendingTasks(); // Fetch pending tasks
         return view('project_manager/task_management', $data);
     }
+
+
 
     public function projectUpdates()
     {
         $data['updates'] = $this->updateModel->findAll();
+        $data['latestUpdate'] = $this->updateModel->getLatestUpdate(); // Fetch latest project update
         return view('project_manager/updates', $data);
     }
 
+
+
     public function budgetTracking()
     {
-        // Logic for budget tracking
-        return view('project_manager/budget_tracking');
+        $data['budget'] = $this->projectModel->getBudgetOverview(); // Fetch budget overview
+        return view('project_manager/budget_tracking', $data);
     }
+
 
     public function clientCommunication()
     {

@@ -9,7 +9,7 @@ class ContractorModel extends Model
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $allowedFields = ['name', 'contact_info', 'status'];
+    protected $allowedFields = ['name', 'email', 'phone', 'status'];
 
     public function createContractor($data)
     {
@@ -33,4 +33,15 @@ class ContractorModel extends Model
     {
         return $this->delete($id);
     }
+
+    public function getContractorsByProject($projectId)
+    {
+        return $this->where('project_id', $projectId)->findAll(); // Fetch contractors by project ID
+    }
+
+    public function getActiveContractors()
+    {
+        return $this->where('status', 'active')->findAll(); // Fetch active contractors
+    }
+
 }
