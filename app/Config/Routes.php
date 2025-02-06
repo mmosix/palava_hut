@@ -5,11 +5,14 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', 'AuthController::login'); // Set the entry point to the login page
+
+$routes->get('register', 'AuthController::register'); // Route for registration
+$routes->get('logout', 'AuthController::logout'); // Route for logout
 
 $routes->group('admin', function($routes) {
     $routes->get('dashboard', 'AdminController::dashboard');
-    $routes->get('users', 'User Controller::index');
+    $routes->get('users', 'UserController::index');
     $routes->get('projects', 'ProjectController::index');
     $routes->get('financials', 'FinancialController::index');
     $routes->get('compliance', 'ComplianceController::index');
