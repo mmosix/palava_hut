@@ -43,7 +43,20 @@ class AuthController extends Controller
                             'timestamp' => date('Y-m-d H:i:s'), // Newly added
                         ]); // Newly added
 
-                        return redirect()->to('/dashboard');
+                        // Redirect based on user role
+                        switch ($user['role']) {
+                            case 'admin':
+                                return redirect()->to('/admin/dashboard');
+                            case 'project-manager':
+                                return redirect()->to('/project-manager/dashboard');
+                            case 'inspector':
+                                return redirect()->to('/inspector/dashboard');
+                            case 'customer':
+                                return redirect()->to('/customer/project-overview');
+                            default:
+                                return redirect()->to('/dashboard');
+                        }
+
                     }
                 }
 
