@@ -2,6 +2,16 @@
 
 <?= $this->section('content') ?>
     <h1>Login</h1>
+    <?php if (isset($validation)): ?>
+        <div class="alert alert-danger">
+            <?= $validation->listErrors() ?>
+        </div>
+    <?php endif; ?>
+    <?php if (isset($error)): ?>
+        <div class="alert alert-danger">
+            <?= $error ?>
+        </div>
+    <?php endif; ?>
     <form action="<?= site_url('auth/login') ?>" method="post">
         <div class="form-group">
             <label for="email">Email:</label>
