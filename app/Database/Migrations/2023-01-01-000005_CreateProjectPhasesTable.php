@@ -5,41 +5,39 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\RawSql;
 use CodeIgniter\Database\Migration;
 
-class CreateUsersTable extends Migration
+class CreateProjectPhasesTable extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
+                'type' => 'INTEGER',
                 'auto_increment' => true,
             ],
-            'email' => [
-                'type' => 'VARCHAR',
-                'constraint' => '191', // Reduced length to fit within key limits
-            ],
-            'password_hash' => [
-                'type' => 'VARCHAR',
-                'constraint' => '191',
+            'project_id' => [
+                'type' => 'INTEGER',
+                'constraint' => '11',
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '191',
             ],
-            'phone' => [
-                'type' => 'VARCHAR',
-                'constraint' => '50',
+            'description' => [
+                'type' => 'TEXT',
+                'null' => true,
             ],
-            'role' => [
-                'type' => 'ENUM',
-                'constraint' => ['admin', 'client', 'contractor', 'inspector'],
+            'start_date' => [
+                'type' => 'DATE',
+                'null' => true,
+            ],
+            'end_date' => [
+                'type' => 'DATE',
+                'null' => true,
             ],
             'status' => [
                 'type' => 'ENUM',
-                'constraint' => ['active', 'inactive', 'suspended'],
-                'default' => 'active',
+                'constraint' => ['pending', 'in_progress', 'completed'],
+                'default' => 'pending',
             ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
@@ -53,12 +51,13 @@ class CreateUsersTable extends Migration
                 'on update' => new RawSql('CURRENT_TIMESTAMP')
             ],
         ]);
-        $this->forge->addKey('id', true);
-        $this->forge->createTable('users');
+        $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('project_id', 'projects', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('project_phases');
     }
 
     public function down()
     {
-        $this->forge->dropTable('users');
+        $this->forge->dropTable('project_phases');
     }
 }

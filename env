@@ -32,8 +32,8 @@
 
 database.default.hostname = localhost
 database.default.database = ph_portal
-database.default.username = dash_phuser
-database.default.password = L95$g49ey
+database.default.username = root
+database.default.password = 
 database.default.DBDriver = MySQLi
 database.default.DBPrefix =
 database.default.port = 3306

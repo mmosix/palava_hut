@@ -5,28 +5,30 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\RawSql;
 use CodeIgniter\Database\Migration;
 
-class CreateComplianceRecordsTable extends Migration
+class CreateProjectTeamMembersTable extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
+                'type' => 'INTEGER',
                 'auto_increment' => true,
             ],
+            'project_id' => [
+                'type' => 'INTEGER',
+                'constraint' => '11',
+            ],
             'user_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
+                'type' => 'INTEGER',
+                'constraint' => '11',
             ],
-            'action' => [
+            'role' => [
                 'type' => 'VARCHAR',
-                'constraint' => '191',
+                'constraint' => '100',
             ],
-            'timestamp' => [
-                'type' => 'DATETIME',
+            'joined_at' => [
+                'type' => 'TIMESTAMP',
+                'default' => new RawSql('CURRENT_TIMESTAMP')
             ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
@@ -39,14 +41,19 @@ class CreateComplianceRecordsTable extends Migration
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
                 'on update' => new RawSql('CURRENT_TIMESTAMP')
             ],
+
+
+
+
         ]);
-        $this->forge->addKey('id', true);
+        $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('project_id', 'projects', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('compliance_records');
+        $this->forge->createTable('project_team_members');
     }
 
     public function down()
     {
-        $this->forge->dropTable('compliance_records');
+        $this->forge->dropTable('project_team_members');
     }
 }

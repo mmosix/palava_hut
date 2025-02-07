@@ -5,28 +5,25 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\RawSql;
 use CodeIgniter\Database\Migration;
 
-class CreateComplianceRecordsTable extends Migration
+class CreatePasswordResetTokensTable extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
+                'type' => 'INTEGER',
                 'auto_increment' => true,
             ],
             'user_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => true,
+                'type' => 'INTEGER',
+                'constraint' => '11',
             ],
-            'action' => [
+            'token' => [
                 'type' => 'VARCHAR',
                 'constraint' => '191',
             ],
-            'timestamp' => [
-                'type' => 'DATETIME',
+            'expires_at' => [
+                'type' => 'TIMESTAMP',
             ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
@@ -39,14 +36,16 @@ class CreateComplianceRecordsTable extends Migration
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
                 'on update' => new RawSql('CURRENT_TIMESTAMP')
             ],
+
+
         ]);
-        $this->forge->addKey('id', true);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('compliance_records');
+        $this->forge->createTable('password_reset_tokens');
     }
 
     public function down()
     {
-        $this->forge->dropTable('compliance_records');
+        $this->forge->dropTable('password_reset_tokens');
     }
 }

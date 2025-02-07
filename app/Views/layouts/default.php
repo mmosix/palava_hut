@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+    <?php if (!in_array(current_url(), [site_url('/'), site_url('register')])): ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
         <a class="navbar-brand" href="<?= site_url('/') ?>">CPM Portal</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,6 +34,8 @@
             </ul>
         </div>
     </nav>
+    <?php endif; ?>
+
 
     <div class="container mt-4">
         <?= $this->renderSection('content') ?>
