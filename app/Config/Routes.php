@@ -5,13 +5,17 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'AuthController::login'); // Set the entry point to the login page
-$routes->post('auth/login', 'AuthController::attemptLogin'); // Add this line to handle login form submission
+$routes->get('/', 'AuthController::login');
 
+$routes->group('auth', function($routes) {
+    $routes->get('login', 'AuthController::login');
+    $routes->post('login', 'AuthController::login');
+    $routes->get('register', 'AuthController::register');
+    $routes->post('register', 'AuthController::register');
+    $routes->get('logout', 'AuthController::logout');
+});
 
-$routes->get('auth/register', 'AuthController::register'); // Route for registration
-$routes->get('auth/logout', 'AuthController::logout'); // Route for logout
-
+$routes->get('dashboard', 'DashboardController::index');
 $routes->group('admin', function($routes) {
     $routes->get('dashboard', 'AdminController::dashboard');
     $routes->get('users', 'UserController::index');
