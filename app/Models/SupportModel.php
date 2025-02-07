@@ -9,7 +9,7 @@ class SupportModel extends Model
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $allowedFields = ['user_id', 'issue', 'status', 'created_at', 'updated_at'];
+    protected $allowedFields = ['user_id', 'subject', 'message', 'status', 'created_at'];
 
     public function createTicket($data)
     {
@@ -33,4 +33,20 @@ class SupportModel extends Model
     {
         return $this->delete($id);
     }
+
+    public function getOpenTickets()
+    {
+        return $this->where('status', 'open')->findAll(); // Fetch open support tickets
+    }
+
+    public function getClosedTickets()
+    {
+        return $this->where('status', 'closed')->findAll(); // Fetch closed support tickets
+    }
+
+    public function getAllTickets()
+    {
+        return $this->findAll(); // Fetch all support tickets
+    }
+
 }

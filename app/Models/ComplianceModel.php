@@ -23,4 +23,11 @@ class ComplianceModel extends Model
         }
         return $this->where('user_id', $userId)->findAll();
     }
+
+    public function getComplianceCount()
+    {
+        return $this->countAll(); // Fetch total compliance records
+    }
+
+
 }
