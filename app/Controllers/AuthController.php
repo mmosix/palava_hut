@@ -34,6 +34,8 @@ class AuthController extends Controller
                         session()->set('userRole', $user['role']);
 
                         // Log compliance action
+                        log_message('debug', 'User logged in: ' . $user['email']);
+
                         $complianceModel = new ComplianceModel(); // Newly added
                         $complianceModel->logCompliance([ // Newly added
                             'user_id' => $user['id'], // Newly added
@@ -45,7 +47,9 @@ class AuthController extends Controller
                     }
                 }
 
+                log_message('error', 'Invalid login attempt for email: ' . $this->request->getPost('email'));
                 $data['error'] = 'Invalid email or password';
+
             }
         }
 
