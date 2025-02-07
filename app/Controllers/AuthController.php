@@ -29,9 +29,11 @@ class AuthController extends Controller
                     $password = $this->request->getPost('password');
 
                     if (password_verify($password, $passwordHash)) {
-                        session()->set('isLoggedIn', true);
-                        session()->set('userId', $user['id']);
-                        session()->set('userRole', $user['role']);
+                        session()->set([
+                            'isLoggedIn' => true,
+                            'userId' => $user['id'],
+                            'userRole' => $user['role']
+                        ]);
 
                         // Log compliance action
                         log_message('debug', 'User logged in: ' . $user['email']);
@@ -56,13 +58,12 @@ class AuthController extends Controller
                             default:
                                 return redirect()->to('/dashboard');
                         }
-
+                    } else {
+                        $data['error'] = 'Invalid email or password';
                     }
+                } else {
+                    $data['error'] = 'Invalid email or password';
                 }
-
-                log_message('error', 'Invalid login attempt for email: ' . $this->request->getPost('email'));
-                $data['error'] = 'Invalid email or password';
-
             }
         }
 
