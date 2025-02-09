@@ -1,0 +1,72 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_contractId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_clientId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_hash",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "storeContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_contractId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_hash",
+                "type": "string"
+            }
+        ],
+        "name": "verifyContract",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_contractId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_status",
+                "type": "string"
+            }
+        ],
+        "name": "updateContractStatus",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

@@ -19,9 +19,9 @@ class Session extends BaseConfig
      * - `CodeIgniter\Session\Handlers\MemcachedHandler`
      * - `CodeIgniter\Session\Handlers\RedisHandler`
      *
-     * @var class-string<BaseHandler>
+     * @phpstan-var class-string<BaseHandler>
      */
-    public string $driver = FileHandler::class;
+    public string $driver = 'CodeIgniter\Session\Handlers\DatabaseHandler';
 
     /**
      * --------------------------------------------------------------------------
@@ -57,7 +57,7 @@ class Session extends BaseConfig
      *
      * IMPORTANT: You are REQUIRED to set a valid save path!
      */
-    public string $savePath = WRITEPATH . 'session';
+    public string $savePath = 'ci_sessions';
 
     /**
      * --------------------------------------------------------------------------

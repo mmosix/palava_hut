@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Libraries;
+
+class Left_menu {
+    public function get_active_menu($sidebar_menu = array()) {
+        return $this->_get_active_menu($sidebar_menu);
+    }
+
+    private function _get_active_menu($sidebar_menu = array()) {
+        $router = service('router');
+        $controller_name = strtolower(get_actual_controller_name($router));
+        $uri_string = uri_string();
+        $current_url = get_uri($uri_string);
+        $method_name = $router->methodName();
+
+        $found_url_active_key = null;
+
+        foreach ($sidebar_menu as $key => $menu) {
+            if (isset($menu["name"])) {
+                $menu_name = get_array_value($menu, "name");
+                $menu_url = get_array_value($menu, "url");
+
+                //compare with controller name
+                if ($controller_name == $menu_url) {
+                    $found_url_active_key = $key;
+                }
+
+                //compare with current url
+                if ($menu_url && ($menu_url === $current_url || get_uri($menu_url) === $current_url)) {
+                    $sidebar_menu[$key]["is_active_menu"] = 1;
+                    return $sidebar_menu;
+                }
+
+                // check for controller match only if no active key is set
+                if ($found_url_active_key === null && ($controller_name == $menu_url || $menu_name === $controller_name)) {
+                    $found_url_active_key = $key;
+                }
+
+                //check in submenu values
+                $submenu = get_array_value($menu, "submenu");
+                if ($submenu && count($submenu)) {
+                    foreach ($submenu as $sub_menu) {
+                        if (isset($sub_menu['name'])) {
+
+                            $sub_menu_url = get_array_value($sub_menu, "url");
+
+                            if ($controller_name == $sub_menu_url) {
+                                $found_url_active_key = $key;
+                            }
+
+                            //compare with current url
+                            if ($sub_menu_url === $current_url || get_uri($sub_menu_url) === $current_url) {
+                                $found_url_active_key = $key;
+                            }
+
+                            //compare with controller name
+                            if (get_array_value($sub_menu, "name") === $controller_name) {
+                                $found_url_active_key = $key;
+                            } else if (get_array_value($sub_menu, "category") === $controller_name) {
+                                $found_url_active_key = $key;
+                            }
+                        }
+                    }
+                }
+
+
+                $sub_pages = get_array_value($menu, "sub_pages");
+                if ($sub_pages) {
+                    foreach ($sub_pages as $sub_page_ur) {
+                        if ($sub_page_ur == $controller_name . "/" . $method_name) {
+                            $found_url_active_key = $key;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!is_null($found_url_active_key)) {
+            $sidebar_menu[$found_url_active_key]["is_active_menu"] = 1;
+        }
+
+
+        return $sidebar_menu;
+    }
+}

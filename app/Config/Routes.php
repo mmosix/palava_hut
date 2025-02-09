@@ -5,56 +5,60 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'AuthController::login');
 
-$routes->group('auth', function($routes) {
-    $routes->get('login', 'AuthController::login');
-    $routes->post('login', 'AuthController::login');
-    $routes->get('register', 'AuthController::register');
-    $routes->post('register', 'AuthController::register');
-    $routes->get('logout', 'AuthController::logout');
-});
+// We get a performance increase by specifying the default
+// route since we don't have to scan directories.
+$routes->get('/', 'Dashboard::index');
+$routes->get('project_inquiry/list_submissions', 'Project_inquiry::list_submissions');
 
-$routes->get('dashboard', 'DashboardController::index');
-$routes->group('admin', function($routes) {
-    $routes->get('dashboard', 'AdminController::dashboard');
-    $routes->get('users', 'UserController::index');
-    $routes->get('projects', 'ProjectController::index');
-    $routes->get('financials', 'FinancialController::index');
-    $routes->get('compliance', 'ComplianceController::index');
-    $routes->get('support', 'SupportController::index');
-    $routes->get('reporting', 'AdminController::reporting');
-});
+//custom routing for custom pages
+//this route will move 'about/any-text' to 'domain.com/about/index/any-text'
+$routes->add('about/(:any)', 'About::index/$1');
 
-$routes->group('project-manager', function($routes) {
-    $routes->get('dashboard', 'ProjectManagerController::dashboard');
-    $routes->get('tasks', 'ProjectManagerController::manageTasks');
-    $routes->get('updates', 'ProjectManagerController::projectUpdates');
-    $routes->get('budget', 'ProjectManagerController::budgetTracking');
-    $routes->get('client-communication', 'ProjectManagerController::clientCommunication');
-    $routes->get('contractors', 'ProjectManagerController::contractorManagement');
-    $routes->get('inspections', 'ProjectManagerController::inspections');
-    $routes->get('documentation', 'ProjectManagerController::documentation');
-    $routes->get('incidents', 'ProjectManagerController::incidents');
-    $routes->get('reporting', 'ProjectManagerController::reporting');
-});
+//add routing for controllers
+$excluded_controllers = array("About", "App_Controller", "Security_Controller");
+$controller_dropdown = array();
+$dir = "./app/Controllers/";
+if (is_dir($dir)) {
+    if ($dh = opendir($dir)) {
+        while (($file = readdir($dh)) !== false) {
+            $controller_name = substr($file, 0, -4);
+            if ($file && $file != "." && $file != ".." && $file != "index.html" && $file != ".gitkeep" && !in_array($controller_name, $excluded_controllers)) {
+                $controller_dropdown[] = $controller_name;
+            }
+        }
+        closedir($dh);
+    }
+}
 
-$routes->group('inspector', function($routes) {
-    $routes->get('dashboard', 'InspectorController::dashboard');
-    $routes->get('schedule', 'InspectorController::scheduleInspection');
-    $routes->get('quality-checks', 'InspectorController::qualityChecks');
-    $routes->get('reports', 'InspectorController::reports');
-    $routes->get('blockchain-verification', 'InspectorController::blockchainVerification');
-    $routes->get('issues', 'InspectorController::issueResolution');
-});
+foreach ($controller_dropdown as $controller) {
+    $routes->get(strtolower($controller), "$controller::index");
+    $routes->get(strtolower($controller) . '/(:any)', "$controller::$1");
+    $routes->post(strtolower($controller) . '/(:any)', "$controller::$1");
+}
 
-$routes->group('customer', function($routes) {
-    $routes->get('project-overview', 'CustomerProjectController::overview');
-    $routes->get('financial-summary', 'CustomerProjectController::financialSummary');
-    $routes->get('timeline', 'CustomerProjectController::projectTimeline');
-    $routes->get('updates', 'CustomerProjectController::realTimeUpdates');
-    $routes->get('team-profiles', 'CustomerProjectController::teamProfiles');
-    $routes->get('documents', 'CustomerProjectController::documents');
-    $routes->get('finance', 'CustomerProjectController::financeInfo');
-    $routes->get('interaction', 'CustomerProjectController::interactionTools');
-});
+//add uppercase links
+$routes->get("Plugins", "Plugins::index");
+$routes->get("Plugins/(:any)", "Plugins::$1");
+$routes->post("Plugins/(:any)", "Plugins::$1");
+
+$routes->get("Updates", "Updates::index");
+$routes->get("Updates/(:any)", "Updates::$1");
+$routes->post("Updates/(:any)", "Updates::$1");
+
+/*
+ * --------------------------------------------------------------------
+ * Additional Routing
+ * --------------------------------------------------------------------
+ *
+ * There will often be times that you need additional routing and you
+ * need it to be able to override any defaults in this file. Environment
+ * based routes is one such time. require() additional route files here
+ * to make that happen.
+ *
+ * You will have access to the $routes object within that file without
+ * needing to reload it.
+ */
+if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
+    require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+}

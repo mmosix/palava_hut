@@ -23,6 +23,11 @@ use CodeIgniter\HotReloader\HotReloader;
  *      Events::on('create', [$myInstance, 'myMethod']);
  */
 
+ Events::on('pre_system', function () {
+    helper('menu');
+    initialize_left_menu();
+});
+
 Events::on('pre_system', static function (): void {
     if (ENVIRONMENT !== 'testing') {
         if (ini_get('zlib.output_compression')) {
@@ -52,4 +57,34 @@ Events::on('pre_system', static function (): void {
             });
         }
     }
+
+    //load php hooks library
+    require_once(APPPATH . "ThirdParty/PHP-Hooks/php-hooks.php");
+
+    helper('plugin');
+
+    define('PLUGINPATH', ROOTPATH . 'plugins/'); //define plugin path
+    define('PLUGIN_URL_PATH', 'plugins/'); //define plugin path
+
+    load_plugin_indexes();
+
+    include APPPATH . 'Config/RiseHooks.php';
+    include APPPATH . 'Config/RiseCustomHooks.php';
 });
+
+function load_plugin_indexes() {
+    $plugins = file_get_contents(APPPATH . "Config/activated_plugins.json");
+    $plugins = @json_decode($plugins);
+
+    if (!($plugins && is_array($plugins) && count($plugins))) {
+        return false;
+    }
+
+    foreach ($plugins as $plugin) {
+        $index_file = PLUGINPATH . $plugin . '/index.php';
+
+        if (file_exists($index_file)) {
+            include $index_file;
+        }
+    }
+}

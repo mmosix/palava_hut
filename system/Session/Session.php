@@ -205,7 +205,7 @@ class Session implements SessionInterface
     /**
      * Initialize the session container and starts up the session.
      *
-     * @return $this|null
+     * @return $this|void
      */
     public function start()
     {
@@ -213,20 +213,20 @@ class Session implements SessionInterface
             // @codeCoverageIgnoreStart
             $this->logger->debug('Session: Initialization under CLI aborted.');
 
-            return null;
+            return;
             // @codeCoverageIgnoreEnd
         }
 
         if ((bool) ini_get('session.auto_start')) {
             $this->logger->error('Session: session.auto_start is enabled in php.ini. Aborting.');
 
-            return null;
+            return;
         }
 
         if (session_status() === PHP_SESSION_ACTIVE) {
             $this->logger->warning('Session: Sessions is enabled, and one exists. Please don\'t $session->start();');
 
-            return null;
+            return;
         }
 
         $this->configure();
@@ -234,7 +234,7 @@ class Session implements SessionInterface
 
         // Sanitize the cookie, because apparently PHP doesn't do that for userspace handlers
         if (isset($_COOKIE[$this->config->cookieName])
-            && (! is_string($_COOKIE[$this->config->cookieName]) || preg_match('#\A' . $this->sidRegexp . '\z#', $_COOKIE[$this->config->cookieName]) !== 1)
+            && (! is_string($_COOKIE[$this->config->cookieName]) || ! preg_match('#\A' . $this->sidRegexp . '\z#', $_COOKIE[$this->config->cookieName]))
         ) {
             unset($_COOKIE[$this->config->cookieName]);
         }
@@ -248,7 +248,7 @@ class Session implements SessionInterface
             if (! isset($_SESSION['__ci_last_regenerate'])) {
                 $_SESSION['__ci_last_regenerate'] = Time::now()->getTimestamp();
             } elseif ($_SESSION['__ci_last_regenerate'] < (Time::now()->getTimestamp() - $regenerateTime)) {
-                $this->regenerate($this->config->regenerateDestroy);
+                $this->regenerate((bool) $this->config->regenerateDestroy);
             }
         }
         // Another work-around ... PHP doesn't seem to send the session cookie
@@ -258,7 +258,7 @@ class Session implements SessionInterface
         }
 
         $this->initVars();
-        $this->logger->debug("Session: Class initialized using '" . $this->config->driver . "' driver.");
+        $this->logger->info("Session: Class initialized using '" . $this->config->driver . "' driver.");
 
         return $this;
     }

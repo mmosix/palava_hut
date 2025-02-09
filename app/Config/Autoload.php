@@ -13,15 +13,28 @@ use CodeIgniter\Config\AutoloadConfig;
  * can find the files as needed.
  *
  * NOTE: If you use an identical key in $psr4 or $classmap, then
- *       the values in this file will overwrite the framework's values.
- *
- * NOTE: This class is required prior to Autoloader instantiation,
- *       and does not extend BaseConfig.
- *
- * @immutable
+ * the values in this file will overwrite the framework's values.
  */
-class Autoload extends AutoloadConfig
-{
+class Autoload extends AutoloadConfig {
+
+    function __construct() {
+        parent::__construct();
+        $this->load_activated_plugins();
+    }
+
+    //load activated plugins to the psr4 variable
+    private function load_activated_plugins() {
+        $plugins = file_get_contents(APPPATH . "Config/activated_plugins.json");
+        $plugins = @json_decode($plugins);
+        if (!($plugins && is_array($plugins) && count($plugins))) {
+            return false;
+        }
+
+        foreach ($plugins as $plugin) {
+            $this->psr4[$plugin] = ROOTPATH . 'plugins/' . $plugin;
+        }
+    }
+
     /**
      * -------------------------------------------------------------------
      * Namespaces
@@ -60,7 +73,10 @@ class Autoload extends AutoloadConfig
      *
      * @var array<string, string>
      */
-    public $classmap = [];
+    public $classmap = [
+        'Left_menu' => APPPATH . 'Config/LeftMenu.php',
+        'Permission' => APPPATH . 'Config/Permission.php'
+    ];
 
     /**
      * -------------------------------------------------------------------
@@ -91,4 +107,5 @@ class Autoload extends AutoloadConfig
      * @var list<string>
      */
     public $helpers = [];
+
 }

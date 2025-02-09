@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Log;
 
-use CodeIgniter\Exceptions\RuntimeException;
 use CodeIgniter\Log\Exceptions\LogException;
 use CodeIgniter\Log\Handlers\HandlerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Stringable;
 use Throwable;
 
@@ -332,6 +332,10 @@ class Logger implements LoggerInterface
             }
 
             // todo - sanitize input before writing to file?
+            if (is_array($val)) {
+                $val = print_r($val, true);
+            }
+            
             $replace['{' . $key . '}'] = $val;
         }
 
@@ -409,5 +413,20 @@ class Logger implements LoggerInterface
             'unknown',
             'unknown',
         ];
+    }
+
+    /**
+     * Cleans the paths of filenames by replacing APPPATH, SYSTEMPATH, FCPATH
+     * with the actual var. i.e.
+     *
+     *  /var/www/site/app/Controllers/Home.php
+     *      becomes:
+     *  APPPATH/Controllers/Home.php
+     *
+     * @deprecated Use dedicated `clean_path()` function.
+     */
+    protected function cleanFileNames(string $file): string
+    {
+        return clean_path($file);
     }
 }
