@@ -1,5 +1,5 @@
 <div class="card mb15">
-    <div class="card-header text-center">
+    <div class="card-header text-center" style="background-color: #604133;">
         <?php if (get_setting("show_logo_in_signin_page") === "yes") { ?>
             <img class="p20 mw100p" src="<?php echo get_logo_url(); ?>" />
         <?php } else { ?>
