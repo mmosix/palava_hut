@@ -20,11 +20,14 @@ if (isset($login_user)) {
 
 $router = service('router');
 $dynamic_class .= " " . strtolower(get_actual_controller_name($router)) . "-page";
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="<?php echo $dir; ?>">
 <?php echo view('includes/head'); ?>
+
 <body class="<?php echo $left_menu_minimized ? "sidebar-toggled" : ""; ?> <?php echo $dynamic_class; ?>">
+
     <?php
     if ($topbar) {
         echo view($topbar);
@@ -42,10 +45,12 @@ $dynamic_class .= " " . strtolower(get_actual_controller_name($router)) . "-page
         $left_menu_toggle_id = "";
     }
 
+
     //don't use page container class if there is no topbar 
     if (!$topbar) {
         $page_container_class = "";
     }
+
 
     //show cartbox only in the store page
     $uri_string = uri_string();
@@ -56,8 +61,8 @@ $dynamic_class .= " " . strtolower(get_actual_controller_name($router)) . "-page
 
     <div id="<?php echo $left_menu_toggle_id; ?>">
         <?php
-        if ($left_menu && ($rendered_menu = session()->get('left_menu'))) {
-            echo $rendered_menu;
+        if ($left_menu) {
+            echo $left_menu;
         }
         ?>
         <div class="overflow-auto <?php echo $page_container_class ?>">
@@ -81,48 +86,60 @@ $dynamic_class .= " " . strtolower(get_actual_controller_name($router)) . "-page
                 }
                 ?>
             </div>
+
+
         </div>
     </div>
 
     <?php echo view('modal/index'); ?>
     <?php echo view('modal/confirmation'); ?>
 
-    <?php
-    if (get_setting("rich_text_editor_name") === "tinymce") {
+
+    <?php if (get_setting("rich_text_editor_name") === "tinymce") {
         echo view("includes/tinymce");
     } else {
         echo view("includes/summernote");
-    }
-    ?>
+    } ?>
+
+    <nav class="mobile-bottom-menu navbar-expand-lg b-t bg-white fixed-bottom d-block d-sm-none">
+        <div class="d-flex justify-content-between pl15 pr15">
+            <a class="nav-link sidebar-toggle-btn" aria-current="page" href="#">
+                <i data-feather="menu" class="icon"></i>
+            </a>
+            <?php if (get_setting("module_todo")) { ?>
+                <a class="nav-link todo-btn" href="<?php echo_uri('todo'); ?>">
+                    <i data-feather="check-circle" class="icon"></i>
+                </a>
+            <?php } ?>
+            <div id="mobile-function-button" class="nav-link"></div>
+            <?php if (get_setting("module_chat")) { ?>
+                <div id="mobile-chat-menu-button" class="nav-link"></div>
+            <?php } ?>
+            <div id="mobile-quick-add-button" class="nav-link dropdown"></div>
+        </div>
+    </nav>
 
     <div style='display: none;'>
-        <?php
-        if (get_setting("module_todo")) {
-            echo view("todo/todo_list");
-        }
+        <script type='text/javascript'>
+            feather.replace();
 
-        if (get_setting("module_chat")) {
-            echo view("messages/chat/chat_list");
-            echo view("messages/chat/active_chat_parts");
-        }
-        ?>
+            <?php
+            $session = \Config\Services::session();
+            $error_message = $session->getFlashdata("error_message");
+            $success_message = $session->getFlashdata("success_message");
+            if (isset($error)) {
+                echo 'appAlert.error("' . $error . '");';
+            }
+            if (isset($error_message)) {
+                echo 'appAlert.error("' . $error_message . '");';
+            }
+            if (isset($success_message)) {
+                echo 'appAlert.success("' . $success_message . '", {duration: 10000});';
+            }
+            ?>
+        </script>
     </div>
 
-    <script type="text/javascript">
-        <?php
-        $session = \Config\Services::session();
-        $error_message = $session->getFlashdata("error_message");
-        $success_message = $session->getFlashdata("success_message");
-        if (isset($error)) {
-            echo 'appAlert.error("' . $error . '");';
-        }
-        if (isset($error_message)) {
-            echo 'appAlert.error("' . $error_message . '");';
-        }
-        if (isset($success_message)) {
-            echo 'appAlert.success("' . $success_message . '");';
-        }
-        ?>
-    </script>
 </body>
+
 </html>

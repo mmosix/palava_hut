@@ -3,7 +3,6 @@
         <div class="col-sm-3 col-lg-2">
             <?php
             $tab_view['active_tab'] = $setting_active_tab;
-$menu_items = \Config\LeftMenu::get_admin_left_menu();
             echo view("settings/tabs", $tab_view);
             ?>
         </div>

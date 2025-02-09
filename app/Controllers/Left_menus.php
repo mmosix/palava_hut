@@ -38,7 +38,6 @@ class Left_menus extends Security_Controller {
         $view_data["available_items"] = $this->left_menu->get_available_items($type);
         $view_data["sortable_items"] = $this->left_menu->get_sortable_items($type);
         $view_data["preview"] = $this->left_menu->rander_left_menu(true, $type);
-        $view_data['login_user'] = $this->login_user;
 
         if ($type == "user") {
             return $this->template->view("left_menu/user_left_menu", $view_data);
@@ -46,7 +45,7 @@ class Left_menus extends Security_Controller {
             $view_data["setting_active_tab"] = ($type == "client_default") ? "client_left_menu" : "left_menu";
             $view_data["type"] = clean_data($type);
 
-            return $this->template->view("left_menu/index", $view_data);
+            return $this->template->rander("left_menu/index", $view_data);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php echo form_open(get_uri("left_menus/save"), array("id" => "left-menu-settings-form", "class" => "general-form dashed-row", "role" => "form")); ?>
 
-<input type="hidden" name="data" id="items-data" value="<?php echo get_left_menu_items(); ?>"/>
+<input type="hidden" name="data" id="items-data" value=""/>
 <input type="hidden" name="type" value="user"/>
 
 <div class="card border-top-0 rounded-top-0">

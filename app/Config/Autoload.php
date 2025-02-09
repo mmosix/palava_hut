@@ -73,10 +73,7 @@ class Autoload extends AutoloadConfig {
      *
      * @var array<string, string>
      */
-    public $classmap = [
-        'Left_menu' => APPPATH . 'Config/LeftMenu.php',
-        'Permission' => APPPATH . 'Config/Permission.php'
-    ];
+    public $classmap = [];
 
     /**
      * -------------------------------------------------------------------

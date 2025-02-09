@@ -332,10 +332,6 @@ class Logger implements LoggerInterface
             }
 
             // todo - sanitize input before writing to file?
-            if (is_array($val)) {
-                $val = print_r($val, true);
-            }
-            
             $replace['{' . $key . '}'] = $val;
         }
 
