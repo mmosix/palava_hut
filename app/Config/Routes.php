@@ -45,6 +45,11 @@ $routes->get("Updates", "Updates::index");
 $routes->get("Updates/(:any)", "Updates::$1");
 $routes->post("Updates/(:any)", "Updates::$1");
 
+// Forms module routes
+$routes->get("forms", "Forms::index");
+$routes->get("forms/(:any)", "Forms::$1");
+$routes->post("forms/(:any)", "Forms::$1");
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

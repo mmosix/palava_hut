@@ -6,7 +6,8 @@ class Project_inquiry extends BaseController {
 
     function __construct() {
         parent::__construct();
-        $this->Project_inquiry_model = model('App\Models\Project_inquiry_model');
+        $this->Form_model = model('App\Models\Form_model');
+        $this->Form_submissions_model = model('App\Models\Form_submissions_model');
         $this->Custom_fields_model = model('App\Models\Custom_fields_model');
     }
 
@@ -39,24 +40,56 @@ class Project_inquiry extends BaseController {
     }
 
     function save() {
-        $inquiry_data = array(
-            "inquiry_type" => $this->request->getPost('inquiry_type'),
-            "created_at" => get_current_utc_time(),
-            "created_by" => $this->login_user->id
+        // Get the form ID for project inquiry
+        $form = $this->Form_model->get_one_where(array("form_type" => "project_inquiry", "status" => "active"));
+        
+        if (!$form) {
+            echo json_encode(array("success" => false, "message" => app_lang("error_occurred")));
+            return;
+        }
+
+        $submission_data = array(
+            "form_id" => $form->id,
+            "submission_type" => $this->request->getPost('inquiry_type'),
+            "submitted_by" => $this->login_user->id,
+            "submitted_at" => get_current_utc_time(),
+            "status" => "pending"
         );
 
-        $inquiry_id = $this->Project_inquiry_model->ci_save($inquiry_data);
+        $submission_id = $this->Form_submissions_model->ci_save($submission_data);
         
-        if ($inquiry_id) {
-            // Get all custom fields based on inquiry type
-            $custom_fields = [];
+        if ($submission_id) {
             $type = $this->request->getPost('inquiry_type');
             
-            // Save custom fields with handling visibility based on inquiry type
+            $submission_values_model = model('App\Models\Form_submission_values_model');
+            
+            // Get fields based on inquiry type
             if ($type === 'planned') {
                 $fields_to_exclude = ['property_location', 'plot_size', 'property_style', 'bedrooms_bathrooms', 'specific_features', 'budget_range_custom', 'expected_timeline'];
+                $fields_to_include = array_merge(
+                    ['full_name', 'email_address', 'phone_number', 'preferred_contact_method', 'country_of_residence', 'property_purpose', 'preferred_property_location'],
+                    ['preferred_development', 'property_type', 'preferred_size', 'additional_features', 'budget_range'],
+                    ['financing_interest', 'additional_notes']
+                );
             } else {
                 $fields_to_exclude = ['preferred_development', 'property_type', 'preferred_size', 'additional_features', 'budget_range'];
+                $fields_to_include = array_merge(
+                    ['full_name', 'email_address', 'phone_number', 'preferred_contact_method', 'country_of_residence', 'property_purpose', 'preferred_property_location'],
+                    ['property_location', 'plot_size', 'property_style', 'bedrooms_bathrooms', 'specific_features', 'budget_range_custom', 'expected_timeline'],
+                    ['financing_interest', 'additional_notes']
+                );
+            }
+            
+            // Save form submission values
+            foreach ($fields_to_include as $field) {
+                $value = $this->request->getPost($field);
+                if ($value !== null) {
+                    $submission_values_model->insert([
+                        'submission_id' => $submission_id,
+                        'field_key' => $field,
+                        'field_value' => $value
+                    ]);
+                }
             }
             
             save_custom_fields("project_inquiries", $inquiry_id, $this->login_user->is_admin, $this->login_user->user_type, $fields_to_exclude);

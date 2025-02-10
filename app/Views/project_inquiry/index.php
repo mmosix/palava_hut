@@ -3,7 +3,7 @@
 <div id="page-content" class="page-wrapper clearfix">
     <div class="card">
         <div class="page-title clearfix">
-            <h1><?php echo app_lang('project_inquiry_form'); ?></h1>
+            <h1><?php echo app_lang('project_inquiry'); ?></h1>
         </div>
         <div class="card-body">
             <?php echo form_open(get_uri("project_inquiry/save"), array("id" => "project-inquiry-form", "class" => "general-form", "role" => "form")); ?>
@@ -98,6 +98,39 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function() {
+    $("#inquiry_type").on("change", function() {
+        var type = $(this).val();
+        
+        // Hide all sections first
+        $(".planned-dev-section, .custom-build-section").addClass("hide");
+        
+        // Show relevant section based on selection
+        if (type === "planned") {
+            $(".planned-dev-section").removeClass("hide");
+        } else if (type === "custom") {
+            $(".custom-build-section").removeClass("hide");
+        }
+        
+        // Adjust form validation based on visible fields
+        if (type === "planned") {
+            $(".custom-build-section .validate-hidden").removeAttr("data-rule-required");
+            $(".planned-dev-section .validate-hidden").attr("data-rule-required", "true");
+        } else if (type === "custom") {
+            $(".planned-dev-section .validate-hidden").removeAttr("data-rule-required");
+            $(".custom-build-section .validate-hidden").attr("data-rule-required", "true");
+        }
+    });
+
+    $("#project-inquiry-form").appForm({
+        onSuccess: function(result) {
+            appAlert.success(result.message, {duration: 10000});
+            setTimeout(function() {
+                window.location.href = "<?php echo get_uri('project_inquiry/list_submissions'); ?>";
+            }, 2000);
+        }
+    });
+});
     $(document).ready(function () {
         $("#project-inquiry-form").appForm({
             onSuccess: function (result) {
