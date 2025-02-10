@@ -170,6 +170,76 @@
             </div>
         <?php } ?>
 
+        <div class="form-group">
+            <div class="row">
+                <label for="location" class="col-md-3"><?php echo app_lang('location'); ?></label>
+                <div class="col-md-9">
+                    <?php
+                    echo form_input(array(
+                        "id" => "location",
+                        "name" => "location",
+                        "value" => $model_info->location,
+                        "class" => "form-control",
+                        "placeholder" => app_lang('location')
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <label for="latitude" class="col-md-3"><?php echo app_lang('latitude'); ?></label>
+                <div class="col-md-9">
+                    <?php
+                    echo form_input(array(
+                        "id" => "latitude",
+                        "name" => "latitude",
+                        "value" => $model_info->latitude,
+                        "class" => "form-control",
+                        "placeholder" => app_lang('latitude')
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <label for="longitude" class="col-md-3"><?php echo app_lang('longitude'); ?></label>
+                <div class="col-md-9">
+                    <?php
+                    echo form_input(array(
+                        "id" => "longitude",
+                        "name" => "longitude",
+                        "class" => "form-control",
+                        "value" => $model_info->longitude,
+                        "placeholder" => app_lang('longitude')
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo get_setting('google_maps_api_key'); ?>&libraries=places"></script>
+        <script>
+            $(document).ready(function() {
+                // Initialize Google Maps Autocomplete
+                var autocomplete = new google.maps.places.Autocomplete(
+                    document.getElementById('location')
+                );
+
+                // When a place is selected, update the coordinates
+                autocomplete.addListener('place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        document.getElementById('latitude').value = place.geometry.location.lat();
+                        document.getElementById('longitude').value = place.geometry.location.lng();
+                    }
+                });
+            });
+        </script>
+
         <?php echo view("custom_fields/form/prepare_context_fields", array("custom_fields" => $custom_fields, "label_column" => "col-md-3", "field_column" => " col-md-9")); ?>
 
     </div>

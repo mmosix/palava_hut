@@ -1,0 +1,15 @@
+CRITICAL - 2025-02-10 17:29:33 --> ErrorException: Undefined property: stdClass::$location
+[Method: GET, Route: projects/overview/1]
+in APPPATH\Views\projects\overview.php on line 53.
+ 1 APPPATH\Views\projects\overview.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$location', 'C:\\wamp64\\www\\palava_hut\\app\\Views\\projects\\overview.php', 53)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\wamp64\\www\\palava_hut\\app\\Views\\projects\\overview.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('projects/overview', [], true)
+ 5 APPPATH\Libraries\Template.php(38): view('projects/overview', [...])
+ 6 APPPATH\Controllers\Projects.php(1122): App\Libraries\Template->view('projects/overview', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Projects->overview('1')
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Projects))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

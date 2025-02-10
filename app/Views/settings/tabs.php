@@ -103,6 +103,7 @@ if (get_setting("module_lead") == "1") {
 $settings_menu["setup"][] = array("name" => "gdpr", "url" => "settings/gdpr");
 $settings_menu["setup"][] = array("name" => "pages", "url" => "pages");
 $settings_menu["setup"][] = array("name" => "web3_settings", "url" => "settings/web3");
+$settings_menu["setup"][] = array("name" => "google_maps_settings", "url" => "settings/google_maps");
 
 if ($login_user->is_admin) {
     $settings_menu["plugins"][] = array("name" => "all_plugins", "url" => "Plugins");
