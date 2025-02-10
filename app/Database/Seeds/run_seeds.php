@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 require_once 'MenuSettingsSeeder.php';
 require_once 'RolePermissionsSeeder.php';

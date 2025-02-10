@@ -2,13 +2,18 @@
 
 namespace App\Controllers;
 
-class Project_inquiry extends BaseController {
+class Project_inquiry extends Security_Controller {
 
     function __construct() {
         parent::__construct();
         $this->Form_model = model('App\Models\Form_model');
         $this->Form_submissions_model = model('App\Models\Form_submissions_model');
         $this->Custom_fields_model = model('App\Models\Custom_fields_model');
+        
+        // Initialize permissions for staff users
+        if ($this->login_user && $this->login_user->user_type == "staff") {
+            $this->init_permission_checker("project_inquiry");
+        }
     }
 
     function index() {
@@ -103,6 +108,15 @@ class Project_inquiry extends BaseController {
     }
 
     function list_submissions() {
+        // Allow both admin users and clients to access project inquiries
+        if ($this->login_user->user_type == "staff" && !($this->login_user->is_admin || get_array_value($this->login_user->permissions, "project_inquiry"))) {
+            app_redirect("forbidden");
+        }
+        
+        if ($this->login_user->user_type == "client" && !$this->can_client_access("project_inquiry")) {
+            app_redirect("forbidden");
+        }
+
         return $this->template->rander("project_inquiry/list", [
             'page_title' => app_lang("project_inquiries")
         ]);

@@ -1102,6 +1102,10 @@ class Security_Controller extends App_Controller {
     }
 
     public function can_client_access($menu_item, $check_module = true) {
+        // Always allow project inquiry access for clients
+        if ($menu_item === "project_inquiry") {
+            return true;
+        }
 
         if ($this->login_user->user_type === "staff" && ($this->login_user->is_admin || get_array_value($this->login_user->permissions, "can_manage_all_kinds_of_settings"))) {
             $this->login_user->client_permissions = "all";

@@ -9,7 +9,8 @@ class Permission {
             "name" => "project_inquiry",
             "category" => "project_inquiry",
             "title" => "project_inquiries",
-            "description" => "Can view project inquiry submissions"
+            "description" => "Can view project inquiry submissions",
+            "type" => "admin_role_only"
         );
         return $permissions;
     }

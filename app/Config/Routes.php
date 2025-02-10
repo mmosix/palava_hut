@@ -50,6 +50,12 @@ $routes->get("forms", "Forms::index");
 $routes->get("forms/(:any)", "Forms::$1");
 $routes->post("forms/(:any)", "Forms::$1");
 
+// Project inquiry routes
+// Project inquiry routes 
+$routes->get("project_inquiry", "Project_inquiry::index");
+$routes->get("project_inquiry/(:any)", "Project_inquiry::$1");
+$routes->post("project_inquiry/(:any)", "Project_inquiry::$1");
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
