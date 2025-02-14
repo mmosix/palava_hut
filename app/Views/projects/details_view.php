@@ -1,6 +1,6 @@
 <?php
 if (!function_exists("make_project_tabs_data")) {
-
+    
     function make_project_tabs_data($default_project_tabs = array(), $is_client = false)
     {
         $project_tab_order = get_setting("project_tab_order");
