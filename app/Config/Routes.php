@@ -10,6 +10,10 @@ use CodeIgniter\Router\RouteCollection;
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
 
+// Settings routes
+$routes->get('settings/google_maps', 'Settings::google_maps');
+$routes->post('settings/save_google_maps_settings', 'Settings::save_google_maps_settings');
+
 //custom routing for custom pages
 //this route will move 'about/any-text' to 'domain.com/about/index/any-text'
 $routes->add('about/(:any)', 'About::index/$1');

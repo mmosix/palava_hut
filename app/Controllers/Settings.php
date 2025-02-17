@@ -1372,6 +1372,23 @@ class Settings extends Security_Controller {
         echo json_encode(array("success" => true, 'message' => app_lang('settings_updated'), "reload_page" => $reload_page));
     }
 
+    function google_maps() {
+        return $this->template->render("settings/google_maps");
+    }
+
+    function save_google_maps_settings() {
+        $settings = array("google_maps_api_key");
+        
+        foreach ($settings as $setting) {
+            $value = $this->request->getPost($setting);
+            if (get_setting($setting) !== $value) {
+                set_setting($setting, $value);
+            }
+        }
+
+        echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
+    }
+
     function localization() {
         $tzlist = \DateTimeZone::listIdentifiers();
         $view_data['timezone_dropdown'] = array();
