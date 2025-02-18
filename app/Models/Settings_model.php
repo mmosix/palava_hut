@@ -27,12 +27,10 @@ class Settings_model extends Crud_model {
 
         $exists = $this->get_setting($setting_name);
         if ($exists === NULL) {
-            $fields["type"] = $type; //type can't be updated
-
-            return $this->db_builder->insert($fields);
+            $fields["type"] = $type;
+            return $this->ci_save($fields);
         } else {
-            $this->db_builder->where('setting_name', $setting_name);
-            $this->db_builder->update($fields);
+            return $this->ci_save($fields, array("setting_name" => $setting_name));
         }
     }
 

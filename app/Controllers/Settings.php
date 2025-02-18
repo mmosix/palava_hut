@@ -1588,6 +1588,31 @@ class Settings extends Security_Controller {
 
     /* load content in tinymce tab */
 
+    function google_maps() {
+        return $this->template->view("settings/integration/google_maps");
+    }
+
+    /* save google maps settings */
+
+    function save_google_maps_settings() {
+        $settings = array("enable_maps_settings", "maps_settings_api_key");
+
+        foreach ($settings as $setting) {
+            $value = $this->request->getPost($setting);
+
+            if (!is_null($value)) {
+            $value = remove_quotations($value); 
+            } else {
+                $value = "";
+            }
+
+        // Remove the unnecessary tinymce check since this is for Google Maps
+            $this->Settings_model->save_setting($setting, $value);
+        }
+    
+        echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
+    }
+
     function tinymce() {
         return $this->template->view("settings/integration/tinymce");
     }

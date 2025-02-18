@@ -27,7 +27,18 @@ if (!function_exists("make_project_tabs_data")) {
         $final_projects_tabs = $final_projects_tabs ? $final_projects_tabs : $default_project_tabs;
 
         foreach ($final_projects_tabs as $key => $value) {
-            echo "<li class='nav-item' role='presentation'><a class='nav-link' data-bs-toggle='tab' href='" . get_uri($value) . "' data-bs-target='#project-$key-section'>" . app_lang($key) . "</a></li>";
+            if ($key === "tasks_list") {
+                echo "<li class='nav-item dropdown' style='cursor: pointer;' role='presentation'>
+                    <a class='nav-link dropdown-toggle' data-bs-toggle='dropdown' href='#' role='button' aria-expanded='false'>" . app_lang("tasks") . "</a>
+                    <ul class='dropdown-menu'>
+                        <li><a class='dropdown-item' data-bs-toggle='tab' href='" . get_uri($value) . "' data-bs-target='#project-tasks_list-section'>" . app_lang("tasks_list") . "</a></li>
+                        <li><a class='dropdown-item' data-bs-toggle='tab' href='" . get_uri($final_projects_tabs["tasks_kanban"]) . "' data-bs-target='#project-tasks_kanban-section'>" . app_lang("tasks_kanban") . "</a></li>
+                        <li><a class='dropdown-item' data-bs-toggle='tab' href='" . get_uri($final_projects_tabs["gantt"]) . "' data-bs-target='#project-gantt-section'>" . app_lang("gantt") . "</a></li>
+                    </ul>
+                </li>";
+            } else if (!in_array($key, ["tasks_kanban", "gantt"])) {
+                echo "<li class='nav-item' role='presentation'><a class='nav-link' data-bs-toggle='tab' href='" . get_uri($value) . "' data-bs-target='#project-$key-section'>" . app_lang($key) . "</a></li>";
+            }
         }
     }
 }

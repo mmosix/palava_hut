@@ -21,6 +21,7 @@
                     <li><a role="presentation" data-bs-toggle="tab" class="" href="<?php echo_uri("settings/bitbucket/"); ?>" data-bs-target="#integration-bitbucket">Bitbucket</a></li>
                     <li><a role="presentation" data-bs-toggle="tab" class="" href="<?php echo_uri("settings/github/"); ?>" data-bs-target="#integration-github">GitHub</a></li>
                     <li><a role="presentation" data-bs-toggle="tab" class="" href="<?php echo_uri("settings/tinymce/"); ?>" data-bs-target="#integration-tinymce">TinyMCE</a></li>
+                    <li><a role="presentation" data-bs-toggle="tab" class="" href="<?php echo_uri("settings/google_maps/"); ?>" data-bs-target="#integration-google-maps">Google Maps</a></li>
 
                     <?php
                     $hook_tabs = array();
@@ -42,6 +43,7 @@
                     <div role="tabpanel" class="tab-pane fade" id="integration-bitbucket"></div>
                     <div role="tabpanel" class="tab-pane fade" id="integration-github"></div>
                     <div role="tabpanel" class="tab-pane fade" id="integration-tinymce"></div>
+                    <div role="tabpanel" class="tab-pane fade" id="integration-google-maps"></div>
                     <?php
                     foreach ($hook_tabs as $hook_tab) {
                     ?>
@@ -71,6 +73,8 @@
                 $("[data-bs-target='#integration-github']").trigger("click");
             } else if (tab === "tinymce") {
                 $("[data-bs-target='#integration-tinymce']").trigger("click");
+            } else if (tab === "google_maps") {
+                $("[data-bs-target='#integration-google-maps']").trigger("click");
             }
         }, 210);
     });
