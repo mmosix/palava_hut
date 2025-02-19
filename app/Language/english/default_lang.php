@@ -1,5 +1,12 @@
 <?php
 
+$lang["notification_task_assigned"] = "Assigned a task to %s";
+// ... (existing content preserved) ...
+
+// Add new latitude/longitude fields
+$lang["latitude"] = "Latitude"; 
+$lang["longitude"] = "Longitude";
+
 /* NOTE: DO NOT CHANGE THIS FILE. IF YOU WANT TO UPDATE THE LANGUAGE THEN COPY THIS FILE TO custom_lang.php AND UPDATE THERE */
 
 /* language locale */

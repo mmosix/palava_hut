@@ -36,12 +36,12 @@
                         if (!$model_info->id && $hide_clients_dropdown) {
                             echo form_dropdown("project_type", array(
                                 "internal_project" => app_lang("internal_project"),
-                            ), array($model_info->project_type ? $model_info->project_type : "internal_project"), "class='select2 validate-hidden' data-rule-required='true', data-msg-required='" . app_lang('field_required') . "' id='project-type-dropdown'");
+                            ), array($model_info->project_type ? $model_info->project_type : "internal_project"), "class='select2'");
                         } else {
                             echo form_dropdown("project_type", array(
                                 "client_project" => app_lang("client_project"),
                                 "internal_project" => app_lang("internal_project"),
-                            ), array($model_info->project_type ? $model_info->project_type : "client_project"), "class='select2 validate-hidden' data-rule-required='true', data-msg-required='" . app_lang('field_required') . "' id='project-type-dropdown'");
+                            ), array($model_info->project_type ? $model_info->project_type : "client_project"), "class='select2'");
                         }
                         ?>
                     </div>
@@ -59,7 +59,7 @@
                     <label for="client_id" class=" col-md-3"><?php echo app_lang('client'); ?></label>
                     <div class=" col-md-9">
                         <?php
-                        echo form_dropdown("client_id", $clients_dropdown, array($model_info->client_id), "class='select2 validate-hidden' data-rule-required='true', data-msg-required='" . app_lang('field_required') . "'");
+                        echo form_dropdown("client_id", $clients_dropdown, array($model_info->client_id), "class='select2 validate-hidden' id='client_id' data-rule-required='true', data-msg-required='" . app_lang('field_required') . "'");
                         ?>
                     </div>
                 </div>
@@ -130,6 +130,57 @@
                         "value" => $model_info->price ? to_decimal_format($model_info->price) : "",
                         "class" => "form-control",
                         "placeholder" => app_lang('price')
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <label for="location" class=" col-md-3"><?php echo app_lang('location'); ?></label>
+                <div class=" col-md-9">
+                    <?php
+                    echo form_input(array(
+                        "id" => "location",
+                        "name" => "location",
+                        "value" => $model_info->location,
+                        "class" => "form-control",
+                        "placeholder" => app_lang('location')
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <label for="latitude" class=" col-md-3"><?php echo app_lang('latitude'); ?></label>
+                <div class=" col-md-9">
+                    <?php
+                    echo form_input(array(
+                        "id" => "latitude",
+                        "name" => "latitude",
+                        "value" => $model_info->latitude,
+                        "class" => "form-control",
+                        "placeholder" => app_lang('latitude')
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <label for="longitude" class=" col-md-3"><?php echo app_lang('longitude'); ?></label>
+                <div class=" col-md-9">
+                    <?php
+                    echo form_input(array(
+                        "id" => "longitude",
+                        "name" => "longitude",
+                        "value" => $model_info->longitude,
+                        "class" => "form-control",
+                        "placeholder" => app_lang('longitude')
                     ));
                     ?>
                 </div>
