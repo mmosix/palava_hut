@@ -1,4 +1,4 @@
-<?php echo view("includes/header", array("title" => "Project Inquiry")); ?>
+<div id="page-content" class="page-wrapper clearfix">
 
 <div id="page-content" class="page-wrapper clearfix">
     <div class="card">
@@ -127,5 +127,3 @@
         });
     });
 </script>
-
-<?php echo view("includes/footer"); ?>

@@ -1,5 +1,3 @@
-<?php echo view("includes/header", array("title" => "View Project Inquiry")); ?>
-
 <div id="page-content" class="page-wrapper clearfix">
     <div class="card">
         <div class="page-title clearfix">
@@ -26,5 +24,3 @@
         </div>
     </div>
 </div>
-
-<?php echo view("includes/footer"); ?>

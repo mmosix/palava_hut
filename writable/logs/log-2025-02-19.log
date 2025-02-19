@@ -1,0 +1,25 @@
+WARNING - 2025-02-19 02:54:08 --> [DEPRECATED] Creation of dynamic property App\Controllers\Project_inquiry::$Project_inquiry_model is deprecated in APPPATH\Controllers\Project_inquiry.php on line 10.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Project_inquiry->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-02-19 02:54:08 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "project_inquiries/index.php"
+[Method: GET, Route: project_inquiry]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
+ 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('project_inquiries/index.php')
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('project_inquiries/index', [], true)
+ 3 APPPATH\Views\layout\index.php(78): view('project_inquiries/index')
+ 4 SYSTEMPATH\View\View.php(234): include('C:\\wamp64\\www\\palava_hut\\app\\Views\\layout\\index.php')
+ 5 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('layout/index', [], true)
+ 7 APPPATH\Libraries\Template.php(38): view('layout/index', [...])
+ 8 APPPATH\Libraries\Template.php(22): App\Libraries\Template->view('layout/index', [...])
+ 9 APPPATH\Controllers\Project_inquiry.php(19): App\Libraries\Template->rander('project_inquiries/index', [...])
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Project_inquiry->index()
+11 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Project_inquiry))
+12 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

@@ -1,5 +1,3 @@
-<?php echo view("includes/header", array("title" => app_lang("project_inquiries"))); ?>
-
 <div id="page-content" class="page-wrapper clearfix">
     <div class="card">
         <div class="page-title clearfix">
@@ -26,5 +24,3 @@
         });
     });
 </script>
-
-<?php echo view("includes/footer"); ?>
