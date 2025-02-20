@@ -4,6 +4,35 @@ namespace App\Controllers;
 
 class Project_inquiry extends Security_Controller {
 
+    private function init() {
+        $this->Project_inquiry_model = model('App\Models\Project_inquiry_model');
+    }
+
+    //this method will call by public url
+    function form() {
+        $this->init();
+        return $this->template->render("project_inquiry/form_page");
+    }
+
+    //this method will call by public url
+    function save() {
+        $this->init();
+        $inquiry_data = array(
+            "name" => $this->request->getPost('name'),
+            "email" => $this->request->getPost('email'),
+            "phone" => $this->request->getPost('phone'),
+            "message" => $this->request->getPost('message'),
+            "created_at" => get_current_utc_time()
+        );
+
+        $inquiry_id = $this->Project_inquiry_model->ci_save($inquiry_data);
+        if ($inquiry_id) {
+            echo json_encode(array("success" => true, "message" => app_lang("record_saved")));
+        } else {
+            echo json_encode(array("success" => false, "message" => app_lang("error_occurred")));
+        }
+    }
+
     protected $Project_inquiry_model;
     function __construct() {
         parent::__construct();
@@ -27,7 +56,7 @@ class Project_inquiry extends Security_Controller {
         return $this->template->view('project_inquiry/modal_form', $view_data);
     }
 
-    function save() {
+    function admin_save() {
         $this->access_only_team_members();
         
         $this->validate_submitted_data(array(
