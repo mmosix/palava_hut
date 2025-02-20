@@ -1,7 +1,71 @@
 <?php
 
 $lang["notification_task_assigned"] = "Assigned a task to %s";
+
+// Project Inquiry Form Language Declarations 
+$lang["project_inquiry_form"] = "Project Inquiry Form";
+$lang["project_inquiry_details"] = "Project Inquiry Details";
+$lang["contact_information"] = "Contact Information";
+$lang["location_details"] = "Location Details";
+$lang["project_requirements"] = "Project Requirements";
+$lang["property_details"] = "Property Details";
+$lang["submit_inquiry"] = "Submit Inquiry";
+$lang["save_inquiry"] = "Save Inquiry";
+$lang["project_inquiry_saved"] = "Project inquiry has been saved successfully";
+$lang["project_inquiry_submitted"] = "Project inquiry has been submitted successfully";
+$lang["invalid_inquiry_type"] = "Invalid inquiry type";
+$lang["view_inquiry"] = "View Inquiry";
+$lang["edit_inquiry"] = "Edit Inquiry";
+$lang["full_name"] = "Full Name";
+$lang["email"] = "Email";
+$lang["phone"] = "Phone";
+$lang["preferred_contact"] = "Preferred Contact Method";
+$lang["country"] = "Country";
+$lang["city"] = "City";
+$lang["state"] = "State";
+$lang["address"] = "Address";
+$lang["planned_development"] = "Planned Development";
+$lang["custom_build"] = "Custom Build"; 
+$lang["project_type"] = "Project Type";
+$lang["inquiry_details"] = "Inquiry Details";
+$lang["inquiry_type"] = "Inquiry Type";
+
+// General Information Section
+$lang["general_information"] = "General Information";
+$lang["planned_development_details"] = "Planned Development Details";
+$lang["custom_build_details"] = "Custom Build Details";
+$lang["optional_information"] = "Optional Information";
+$lang["preferred_location"] = "Preferred Location";
+$lang["property_purpose"] = "Property Purpose";
+$lang["budget_range"] = "Budget Range";
+$lang["additional_notes"] = "Additional Notes";
+$lang["latitude"] = "Latitude";
+$lang["longitude"] = "Longitude";
 // ... (existing content preserved) ...
+
+$lang["add_project_inquiry"] = "Add New Project Inquiry";
+$lang["project_inquiry_form"] = "Project Inquiry Form";
+$lang["project_inquiries"] = "Project Inquiries";
+$lang["view_submissions"] = "View Submissions";
+$lang["project_type"] = "Type of Project";
+$lang["inquiry_type"] = "Inquiry Type";
+$lang["project_inquiry_details"] = "Project Inquiry Details";
+$lang["general_information"] = "General Information";
+$lang["planned_development_details"] = "Planned Development Details";
+$lang["custom_build_details"] = "Custom Build Details";
+$lang["optional_information"] = "Optional Information";
+$lang["planned_development"] = "Planned Development";
+$lang["custom_build"] = "Custom Build";
+$lang["full_name"] = "Full Name";
+$lang["country"] = "Country";
+$lang["preferred_location"] = "Preferred Location";
+$lang["field_required"] = "This field is required";
+$lang["enter_valid_email"] = "Please enter a valid email address";
+
+$lang["preferred_contact"] = "Preferred Contact Method";
+$lang["property_purpose"] = "Property Purpose";  
+$lang["budget_range"] = "Budget Range";
+$lang["additional_notes"] = "Additional Notes";
 
 // Add new latitude/longitude fields
 $lang["latitude"] = "Latitude"; 
@@ -2812,5 +2876,15 @@ $lang["total_hours"] = "Total hours";
 $lang["support_only_project_related_tasks_globally_label"] = "Create only the project related tasks from the global task creation modal";
 
 $lang["name_and_company_name_error_message"] = "First name, last name, and company name can't be hidden at a time.";
+
+$lang["financing_interest"] = "Financing Interest";
+$lang["plot_size"] = "Plot Size";
+$lang["property_style"] = "Property Style";
+$lang["bathrooms"] = "Bathrooms";
+$lang["specific_requirements"] = "Specific Requirements";
+$lang["expected_timeline"] = "Expected Timeline";
+$lang["preferred_development"] = "Preferred Development";
+$lang["property_type"] = "Property Type";
+$lang["additional_features"] = "Additional Features";
 
 return $lang;

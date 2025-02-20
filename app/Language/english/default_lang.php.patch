@@ -1,0 +1,20 @@
+<?php
+
+// Project Inquiry Form Language Declarations
+$lang["planned_development"] = "Planned Development";
+$lang["custom_build"] = "Custom Build";
+$lang["project_type"] = "Project Type";
+$lang["inquiry_details"] = "Inquiry Details";
+$lang["inquiry_type"] = "Inquiry Type";
+
+// General Information Section
+$lang["general_information"] = "General Information";
+$lang["planned_development_details"] = "Planned Development Details";
+$lang["custom_build_details"] = "Custom Build Details";
+$lang["optional_information"] = "Optional Information";
+$lang["preferred_location"] = "Preferred Location";
+$lang["property_purpose"] = "Property Purpose";
+$lang["budget_range"] = "Budget Range";
+$lang["additional_notes"] = "Additional Notes";
+$lang["latitude"] = "Latitude";
+$lang["longitude"] = "Longitude";

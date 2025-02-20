@@ -86,6 +86,11 @@ $lang["field_required"] = "Ce champ est requis.";
 $lang["end_date_must_be_equal_or_greater_than_start_date"] = "La date de fin doit être égale ou supérieure à la date de début.";
 $lang["date_must_be_equal_or_greater_than_today"] = "La date doit être égale ou supérieure à aujourd'hui.";
 $lang["enter_valid_email"] = "Veuillez entrer une addresse électronique valable s'il vous plaît.";
+
+$lang["preferred_contact"] = "Méthode de contact préférée";
+$lang["property_purpose"] = "Objectif de la propriété";
+$lang["budget_range"] = "Fourchette budgétaire";
+$lang["additional_notes"] = "Notes complémentaires";
 $lang["enter_same_value"] = "Entrez à nouveau la même valeur s'il vous plait.";
 $lang["record_saved"] = "L'enregistrement a été sauvegardé.";
 $lang["record_updated"] = "L'enregistrement a été mis à jour.";

@@ -4,12 +4,9 @@ namespace App\Models;
 
 class Project_inquiry_model extends Crud_model {
     protected $table = null;
-    private $custom_fields_model;
-
     function __construct() {
         $this->table = 'project_inquiries';
         parent::__construct($this->table);
-        $this->custom_fields_model = model("App\Models\Custom_fields_model");
     }
 
     function get_details($options = array()) {
@@ -34,18 +31,12 @@ class Project_inquiry_model extends Crud_model {
     }
 
     function ci_save(&$data = array(), $id = 0) {
-        $inquiry_id = parent::ci_save($data, $id);
-        
-        if ($inquiry_id) {
-            $custom_fields = $this->custom_fields_model->get_combined_details("project_inquiries", $inquiry_id, true)->getResult();
-            foreach ($custom_fields as $field) {
-                $field_name = "custom_field_" . $field->id;
-                if (isset($data[$field_name])) {
-                    $value = $data[$field_name];
-                    $this->custom_fields_model->save_value($inquiry_id, $field->id, $value, "project_inquiries");
-                }
+        $required = array("full_name", "email", "preferred_contact", "country", "property_purpose", "preferred_location");
+        foreach ($required as $field) {
+            if (!isset($data[$field]) || empty($data[$field])) {
+                throw new \Exception($field . " is required");
             }
         }
-        return $inquiry_id;
+        return parent::ci_save($data, $id);
     }
 }

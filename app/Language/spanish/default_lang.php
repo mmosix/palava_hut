@@ -86,6 +86,11 @@ $lang["field_required"] = "Este campo es requerido.";
 $lang["end_date_must_be_equal_or_greater_than_start_date"] = "La fecha de caducidad debe ser igual o mayor que la fecha de inicio.";
 $lang["date_must_be_equal_or_greater_than_today"] = "La Fecha debe ser igual o mayor que el día de hoy.";
 $lang["enter_valid_email"] = "Por favor entre un dirección de correo válida.";
+
+$lang["preferred_contact"] = "Método de contacto preferido";
+$lang["property_purpose"] = "Propósito de la propiedad";
+$lang["budget_range"] = "Rango de presupuesto";
+$lang["additional_notes"] = "Notas adicionales";
 $lang["enter_same_value"] = "Por favor entre la misma clave de nuevo.";
 $lang["record_saved"] = "Se ha Guardardo el registro.";
 $lang["record_updated"] = "Se ha actualizado el registro.";

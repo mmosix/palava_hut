@@ -1,25 +1,106 @@
-WARNING - 2025-02-19 02:54:08 --> [DEPRECATED] Creation of dynamic property App\Controllers\Project_inquiry::$Project_inquiry_model is deprecated in APPPATH\Controllers\Project_inquiry.php on line 10.
- 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Project_inquiry->__construct()
- 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
- 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
- 6 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
-CRITICAL - 2025-02-19 02:54:08 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "project_inquiries/index.php"
-[Method: GET, Route: project_inquiry]
-in SYSTEMPATH\Exceptions\FrameworkException.php on line 41.
- 1 SYSTEMPATH\View\View.php(222): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('project_inquiries/index.php')
- 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('project_inquiries/index', [], true)
- 3 APPPATH\Views\layout\index.php(78): view('project_inquiries/index')
- 4 SYSTEMPATH\View\View.php(234): include('C:\\wamp64\\www\\palava_hut\\app\\Views\\layout\\index.php')
- 5 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
- 6 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('layout/index', [], true)
- 7 APPPATH\Libraries\Template.php(38): view('layout/index', [...])
- 8 APPPATH\Libraries\Template.php(22): App\Libraries\Template->view('layout/index', [...])
- 9 APPPATH\Controllers\Project_inquiry.php(19): App\Libraries\Template->rander('project_inquiries/index', [...])
-10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Project_inquiry->index()
-11 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Project_inquiry))
-12 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
-13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
-14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
-15 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-02-19 23:08:47 --> mysqli_sql_exception: Unknown column 'ph_project_inquiries.created_at' in 'field list' in C:\wamp64\www\palava_hut\system\Database\MySQLi\Connection.php:312
+Stack trace:
+#0 C:\wamp64\www\palava_hut\system\Database\MySQLi\Connection.php(312): mysqli->query('SELECT ph_proje...', 0)
+#1 C:\wamp64\www\palava_hut\system\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ph_proje...')
+#2 C:\wamp64\www\palava_hut\system\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ph_proje...')
+#3 C:\wamp64\www\palava_hut\app\Models\Project_inquiry_model.php(30): CodeIgniter\Database\BaseConnection->query('SELECT ph_proje...')
+#4 C:\wamp64\www\palava_hut\app\Controllers\Project_inquiry.php(84): App\Models\Project_inquiry_model->get_details()
+#5 C:\wamp64\www\palava_hut\system\CodeIgniter.php(933): App\Controllers\Project_inquiry->list_data()
+#6 C:\wamp64\www\palava_hut\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Project_inquiry))
+#7 C:\wamp64\www\palava_hut\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\wamp64\www\palava_hut\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\wamp64\www\palava_hut\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\wamp64\www\palava_hut\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2025-02-19 23:08:47 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ph_project_inquiries.created_at' in 'field list'
+[Method: POST, Route: project_inquiry/list_data]
+in SYSTEMPATH\Database\BaseConnection.php on line 688.
+ 1 APPPATH\Models\Project_inquiry_model.php(30): CodeIgniter\Database\BaseConnection->query('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 2 APPPATH\Controllers\Project_inquiry.php(84): App\Models\Project_inquiry_model->get_details()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Project_inquiry->list_data()
+ 4 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Project_inquiry))
+ 5 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-02-19 23:08:47 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ph_project_inquiries.created_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 317.
+ 1 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 3 APPPATH\Models\Project_inquiry_model.php(30): CodeIgniter\Database\BaseConnection->query('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 4 APPPATH\Controllers\Project_inquiry.php(84): App\Models\Project_inquiry_model->get_details()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Project_inquiry->list_data()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Project_inquiry))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-02-19 23:08:47 --> [Caused by] mysqli_sql_exception: Unknown column 'ph_project_inquiries.created_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 312.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(312): mysqli->query('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 4 APPPATH\Models\Project_inquiry_model.php(30): CodeIgniter\Database\BaseConnection->query('SELECT ph_project_inquiries.*, CONCAT(ph_project_inquiries.created_at) AS created_at_formatted,
+            CONCAT(ph_users.first_name, \' \', ph_users.last_name) as created_by_name,
+            ph_users.image as created_by_avatar,
+            ph_users.user_type,
+            ph_users.email
+            FROM ph_project_inquiries
+            LEFT JOIN ph_users ON ph_users.id = ph_project_inquiries.created_by
+            WHERE 1 ')
+ 5 APPPATH\Controllers\Project_inquiry.php(84): App\Models\Project_inquiry_model->get_details()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Project_inquiry->list_data()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Project_inquiry))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(75): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

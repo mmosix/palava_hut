@@ -15,8 +15,13 @@
         $("#project-inquiry-table").appTable({
             source: '<?php echo get_uri("project_inquiry/list_data") ?>',
             columns: [
-                {title: '<?php echo app_lang("title"); ?>'},
-                {title: '<?php echo app_lang("status"); ?>'},
+                {title: 'ID'},
+                {title: '<?php echo app_lang("full_name"); ?>'},
+                {title: '<?php echo app_lang("email"); ?>'},
+                {title: '<?php echo app_lang("phone"); ?>'},
+                {title: '<?php echo app_lang("inquiry_type"); ?>'},
+                {title: '<?php echo app_lang("country"); ?>'},
+                {title: '<?php echo app_lang("preferred_location"); ?>'},
                 {title: '<?php echo app_lang("created_date"); ?>'},
                 {title: '<i class="fa fa-bars"></i>', "class": "text-center option w100"}
             ],

@@ -4,34 +4,39 @@ namespace App\Controllers;
 
 class Project_inquiry extends Security_Controller {
 
+    protected $Project_inquiry_model;
     function __construct() {
         parent::__construct();
         $this->init_permission_checker("inquiry");
         $this->Project_inquiry_model = model('App\Models\Project_inquiry_model');
-        $this->Custom_fields_model = model('App\Models\Custom_fields_model');
     }
 
     function index() {
         $this->access_only_team_members();
         
-        $view_data["custom_field_headers"] = $this->Custom_fields_model->get_custom_field_headers_for_table("project_inquiries", $this->login_user->is_admin, $this->login_user->user_type);
+        $view_data = array();
         
-        return $this->template->rander("project_inquiries/index", $view_data);
+        return $this->template->rander("project_inquiry/index", $view_data);
     }
 
     function modal_form() {
         $this->access_only_team_members();
         
         $view_data['model_info'] = $this->Project_inquiry_model->get_one($this->request->getPost('id'));
-        $view_data["custom_fields"] = $this->Custom_fields_model->get_combined_details("project_inquiries", $view_data['model_info']->id, $this->login_user->is_admin, $this->login_user->user_type)->getResult();
         
-        return $this->template->view('project_inquiries/modal_form', $view_data);
+        return $this->template->view('project_inquiry/modal_form', $view_data);
     }
 
     function save() {
         $this->access_only_team_members();
         
         $this->validate_submitted_data(array(
+            "full_name" => "required",
+            "email" => "required|valid_email",
+            "preferred_contact" => "required",
+            "country" => "required",
+            "property_purpose" => "required", 
+            "preferred_location" => "required",
             "inquiry_type" => "required"
         ));
 
@@ -39,6 +44,25 @@ class Project_inquiry extends Security_Controller {
 
         $inquiry_data = array(
             "inquiry_type" => $this->request->getPost('inquiry_type'),
+            "full_name" => $this->request->getPost('full_name'),
+            "email" => $this->request->getPost('email'),
+            "phone" => $this->request->getPost('phone'),
+            "preferred_contact" => $this->request->getPost('preferred_contact'),
+            "country" => $this->request->getPost('country'),
+            "property_purpose" => $this->request->getPost('property_purpose'),
+            "preferred_location" => $this->request->getPost('preferred_location'),
+            "preferred_development" => $this->request->getPost('preferred_development'),
+            "property_type" => $this->request->getPost('property_type'),
+            "bedrooms" => $this->request->getPost('bedrooms'),
+            "additional_features" => $this->request->getPost('additional_features'),
+            "plot_size" => $this->request->getPost('plot_size'),
+            "property_style" => $this->request->getPost('property_style'),
+            "bathrooms" => $this->request->getPost('bathrooms'),
+            "specific_requirements" => $this->request->getPost('specific_requirements'),
+            "budget_range" => $this->request->getPost('budget_range'),
+            "expected_timeline" => $this->request->getPost('expected_timeline'),
+            "financing_interest" => $this->request->getPost('financing_interest'),
+            "additional_notes" => $this->request->getPost('additional_notes'),
             "created_by" => $this->login_user->id
         );
 
@@ -72,47 +96,49 @@ class Project_inquiry extends Security_Controller {
     }
 
     private function _make_row($data) {
+        $inquiry_type = $data->inquiry_type === 'planned' ? 'Planned Development' : 'Custom Build';
         $row_data = array(
-            get_team_member_profile_link($data->created_by, $data->created_by_name, array("avatar" => $data->created_by_avatar)),
-            $data->inquiry_type,
+            $data->id,
+            $data->full_name,
+            $data->email,
+            $data->phone ? $data->phone : "-",
+            $inquiry_type,
+            $data->country, 
+            $data->preferred_location,
             format_to_relative_time($data->created_at)
         );
 
-        $row_data[] = modal_anchor(get_uri("project_inquiries/view/" . $data->id), "<i data-feather='eye' class='icon-16'></i>", array("class" => "edit", "title" => app_lang('view_inquiry'), "data-post-id" => $data->id));
+        $row_data[] = modal_anchor(get_uri("project_inquiry/modal_form"), "<i data-feather='edit' class='icon-16'></i>", array("class" => "edit", "title" => app_lang('edit_project_inquiry'), "data-post-id" => $data->id))
+                . js_anchor("<i data-feather='x' class='icon-16'></i>", array('title' => app_lang('delete_project_inquiry'), "class" => "delete", "data-id" => $data->id, "data-action-url" => get_uri("project_inquiry/delete"), "data-action" => "delete"));
 
         return $row_data;
-    }
-
-    function view($inquiry_id = 0) {
-        $this->access_only_team_members();
-        
-        validate_numeric_value($inquiry_id);
-        
-        if (!$inquiry_id) {
-            show_404();
-        }
-
-        $view_data['model_info'] = $this->Project_inquiry_model->get_one($inquiry_id);
-        
-        if (!$view_data['model_info']->id) {
-            show_404();
-        }
-
-        $view_data['custom_fields'] = $this->Custom_fields_model->get_combined_details("project_inquiries", $inquiry_id, $this->login_user->is_admin, $this->login_user->user_type)->getResult();
-        
-        return $this->template->rander("project_inquiries/view", $view_data);
     }
 
     function delete() {
         $this->access_only_team_members();
         
         $id = $this->request->getPost('id');
-        validate_numeric_value($id);
-        
+        validate_submitted_data(array("id" => "required|numeric"));
+
         if ($this->Project_inquiry_model->delete($id)) {
             echo json_encode(array("success" => true, 'message' => app_lang('record_deleted')));
         } else {
             echo json_encode(array("success" => false, 'message' => app_lang('record_cannot_be_deleted')));
         }
+    }
+
+    function view($inquiry_id = 0) {
+        $this->access_only_team_members();
+
+        if (!$inquiry_id) {
+            show_404();
+        }
+
+        $view_data['model_info'] = $this->Project_inquiry_model->get_one($inquiry_id);
+        if (!$view_data['model_info']->id) {
+            show_404();
+        }
+
+        return $this->template->rander("project_inquiry/view", $view_data);
     }
 }
