@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label><?php echo app_lang('created_by'); ?></label>
                         <div class="avatar-with-name">
-                            <span class="avatar"><img src="<?php echo get_avatar($model_info->created_by_avatar); ?>" alt="..."></span>
+                            <span class="avatar avatar-sm"><img src="<?php echo get_avatar($model_info->created_by_avatar); ?>" alt="..."></span>
                             <?php echo $model_info->created_by_name; ?>
                         </div>
                     </div>
