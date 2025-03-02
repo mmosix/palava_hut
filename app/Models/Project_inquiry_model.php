@@ -18,6 +18,11 @@ class Project_inquiry_model extends Crud_model {
         if ($id) {
             $where .= " AND $inquiries_table.id=$id";
         }
+        
+        $user_id = get_array_value($options, "user_id");
+        if ($user_id) {
+            $where .= " AND $inquiries_table.created_by=$user_id";
+        }
 
         $sql = "SELECT $inquiries_table.*, CONCAT($inquiries_table.created_at) AS created_at_formatted,
             CONCAT($users_table.first_name, ' ', $users_table.last_name) as created_by_name,
@@ -31,10 +36,13 @@ class Project_inquiry_model extends Crud_model {
     }
 
     function ci_save(&$data = array(), $id = 0) {
-        $required = array("full_name", "email", "preferred_contact", "country", "property_purpose", "preferred_location");
-        foreach ($required as $field) {
-            if (!isset($data[$field]) || empty($data[$field])) {
-                throw new \Exception($field . " is required");
+        // Only check required fields when we have full form data
+        if (isset($data["full_name"]) && isset($data["property_purpose"])) {
+            $required = array("full_name", "email", "preferred_contact", "country", "property_purpose", "preferred_location");
+            foreach ($required as $field) {
+                if (!isset($data[$field]) || empty($data[$field])) {
+                    throw new \Exception($field . " is required");
+                }
             }
         }
         return parent::ci_save($data, $id);

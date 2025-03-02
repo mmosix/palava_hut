@@ -18,12 +18,21 @@ class Project_inquiry extends Security_Controller {
     function save() {
         $this->init();
         $inquiry_data = array(
-            "name" => $this->request->getPost('name'),
+            "full_name" => $this->request->getPost('full_name'),
             "email" => $this->request->getPost('email'),
             "phone" => $this->request->getPost('phone'),
+            "preferred_contact" => $this->request->getPost('preferred_contact'),
+            "country" => $this->request->getPost('country'),
+            "property_purpose" => $this->request->getPost('property_purpose'),
+            "preferred_location" => $this->request->getPost('preferred_location'),
             "message" => $this->request->getPost('message'),
             "created_at" => get_current_utc_time()
         );
+
+        // Add client_id if user is logged in as client
+        if ($this->login_user && $this->login_user->user_type == "client") {
+            $inquiry_data["client_id"] = $this->login_user->client_id;
+        }
 
         $inquiry_id = $this->Project_inquiry_model->ci_save($inquiry_data);
         if ($inquiry_id) {
@@ -40,6 +49,7 @@ class Project_inquiry extends Security_Controller {
         $this->Project_inquiry_model = model('App\Models\Project_inquiry_model');
     }
 
+    // Admin index
     function index() {
         $this->access_only_team_members();
         
@@ -116,6 +126,80 @@ class Project_inquiry extends Security_Controller {
             $result[] = $this->_make_row($data);
         }
         echo json_encode(array("data" => $result));
+    }
+    
+    // Client access to their inquiries
+    function client_inquiries() {
+        $view_data['label_column'] = "col-md-3";
+        $view_data['field_column'] = "col-md-9";
+        return $this->template->rander("project_inquiry/client_index", $view_data);
+    }
+    
+    // Added client_index method to fix 404 error
+    function client_index() {
+        return $this->client_inquiries();
+    }
+    
+    function client_list_data() {
+        $this->access_only_clients();
+        
+        $options = array("user_id" => $this->login_user->id);
+        $list_data = $this->Project_inquiry_model->get_details($options)->getResult();
+        $result = array();
+        foreach ($list_data as $data) {
+            $result[] = $this->_make_client_row($data);
+        }
+        echo json_encode(array("data" => $result));
+    }
+    
+    private function _make_client_row($data) {
+        $status = "<span class='label label-default'>" . app_lang('pending') . "</span>";
+        if (isset($data->status)) {
+            if ($data->status === "in_progress") {
+                $status = "<span class='label label-warning'>" . app_lang('in_progress') . "</span>";
+            } else if ($data->status === "completed") {
+                $status = "<span class='label label-success'>" . app_lang('completed') . "</span>";
+            } else if ($data->status === "declined") {
+                $status = "<span class='label label-danger'>" . app_lang('declined') . "</span>";
+            }
+        }
+        
+        return array(
+            $data->id,
+            format_to_date($data->created_at),
+            $data->property_purpose ? $data->property_purpose : "",
+            $data->preferred_location ? $data->preferred_location : "",
+            $status,
+            modal_anchor(get_uri("project_inquiry/client_view/" . $data->id), "<i class='fa fa-eye'></i>", array("class" => "edit", "title" => app_lang('view'), "data-post-id" => $data->id))
+        );
+    }
+    
+    // Client form page
+    function client_form() {
+        $view_data = array();
+        if ($this->login_user) {
+            $view_data['login_user'] = $this->login_user;
+        }
+        return $this->template->rander("project_inquiry/client_form_page", $view_data);
+    }
+    
+    // Client view inquiry
+    function client_view($inquiry_id = 0) {
+        $this->access_only_clients();
+        
+        if (!$inquiry_id) {
+            show_404();
+        }
+        
+        $options = array("id" => $inquiry_id, "client_id" => $this->login_user->client_id);
+        $inquiry_info = $this->Project_inquiry_model->get_details($options)->getRow();
+        
+        if (!$inquiry_info || !$inquiry_info->id) {
+            show_404();
+        }
+        
+        $view_data['model_info'] = $inquiry_info;
+        return $this->template->view('project_inquiry/view', $view_data);
     }
 
     private function _row_data($id) {
