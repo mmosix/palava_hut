@@ -163,10 +163,13 @@ class Project_inquiry extends Security_Controller {
             show_404();
         }
 
-        $view_data['model_info'] = $this->Project_inquiry_model->get_one($inquiry_id);
+        $options = array("id" => $inquiry_id);
+        $view_data['model_info'] = $this->Project_inquiry_model->get_details($options)->getRow();
         if (!$view_data['model_info']->id) {
             show_404();
         }
+        
+        $view_data["custom_fields"] = $this->Custom_fields_model->get_combined_details("project_inquiries", $inquiry_id, $this->login_user->is_admin, $this->login_user->user_type)->getResult();
 
         return $this->template->rander("project_inquiry/view", $view_data);
     }

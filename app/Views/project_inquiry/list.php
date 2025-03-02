@@ -15,8 +15,8 @@
         $("#project-inquiry-table").appTable({
             source: '<?php echo get_uri("project_inquiry/list_data") ?>',
             columns: [
-                {title: 'ID'},
-                {title: '<?php echo app_lang("full_name"); ?>'},
+                {title: 'ID', "class": "w50"},
+                {title: '<?php echo app_lang("full_name"); ?>', "class": "all"},
                 {title: '<?php echo app_lang("email"); ?>'},
                 {title: '<?php echo app_lang("phone"); ?>'},
                 {title: '<?php echo app_lang("inquiry_type"); ?>'},
@@ -25,6 +25,11 @@
                 {title: '<?php echo app_lang("created_date"); ?>'},
                 {title: '<i class="fa fa-bars"></i>', "class": "text-center option w100"}
             ],
+            rowCallback: function(row, data) {
+                $(row).find("td:not(:last-child)").click(function() {
+                    window.location = "<?php echo get_uri('project_inquiry/view/'); ?>" + data[0];
+                }).css("cursor", "pointer");
+            },
             order: [[2, "desc"]]
         });
     });
