@@ -18,6 +18,7 @@ class Project_inquiry extends Security_Controller {
     function save() {
         $this->init();
         $inquiry_data = array(
+            "inquiry_type" => $this->request->getPost('inquiry_type'),
             "full_name" => $this->request->getPost('full_name'),
             "email" => $this->request->getPost('email'),
             "phone" => $this->request->getPost('phone'),
@@ -25,8 +26,21 @@ class Project_inquiry extends Security_Controller {
             "country" => $this->request->getPost('country'),
             "property_purpose" => $this->request->getPost('property_purpose'),
             "preferred_location" => $this->request->getPost('preferred_location'),
+            "preferred_development" => $this->request->getPost('preferred_development'),
+            "property_type" => $this->request->getPost('property_type'),
+            "bedrooms" => $this->request->getPost('bedrooms'),
+            "additional_features" => $this->request->getPost('additional_features'),
+            "plot_size" => $this->request->getPost('plot_size'),
+            "property_style" => $this->request->getPost('property_style'),
+            "bathrooms" => $this->request->getPost('bathrooms'),
+            "specific_requirements" => $this->request->getPost('specific_requirements'),
+            "budget_range" => $this->request->getPost('budget_range'),
+            "expected_timeline" => $this->request->getPost('expected_timeline'),
+            "financing_interest" => $this->request->getPost('financing_interest'),
+            "additional_notes" => $this->request->getPost('additional_notes'),
             "message" => $this->request->getPost('message'),
-            "created_at" => get_current_utc_time()
+            "created_at" => get_current_utc_time(),
+            "created_by" => $this->login_user ? $this->login_user->id : 0
         );
 
         // Add client_id if user is logged in as client
