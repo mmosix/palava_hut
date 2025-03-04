@@ -1,19 +1,27 @@
-<?php echo form_open(get_uri("project_inquiry/admin_save"), array("id" => "project-inquiry-form", "class" => "general-form", "role" => "form")); ?> 
-<div class="modal-body clearfix">
-    <input type="hidden" name="id" value="<?php echo $model_info->id; ?>" />
+<?php echo form_open(get_uri("project_inquiry/save"), array("id" => "project-inquiry-form", "class" => "general-form", "role" => "form")); ?>
 
+<div class="modal-body clearfix">
+    <!-- Inquiry Type Selection -->
     <div class="form-group">
         <div class="row">
-            <label for="inquiry_type" class="col-md-3"><?php echo app_lang('inquiry_type'); ?></label> 
+            <label for="inquiry_type" class="col-md-3"><?php echo app_lang('inquiry_type'); ?></label>
             <div class="col-md-9">
                 <?php
-                echo form_dropdown("inquiry_type", array("" => "--","planned" => "Planned Development", "custom" => "Custom Build"), $model_info->inquiry_type, "class='select2 validate-hidden' id='inquiry_type' data-rule-required='true' data-msg-required='" . app_lang('field_required') . "'");
+                echo form_dropdown(
+                        "inquiry_type", array(
+                    "" => "--",
+                    "planned" => app_lang("planned_development"),
+                    "custom" => app_lang("custom_build"),
+                        ), "", "class='select2 form-control' data-rule-required='true' data-msg-required='" . app_lang('field_required') . "'"
+                );
                 ?>
             </div>
         </div>
     </div>
 
-    <!-- General Information --> 
+    <!-- General Information Section -->
+    <div class="section-title"><?php echo app_lang('general_information'); ?></div>
+    
     <div class="form-group">
         <div class="row">
             <label for="full_name" class="col-md-3"><?php echo app_lang('full_name'); ?></label>
@@ -22,9 +30,10 @@
                 echo form_input(array(
                     "id" => "full_name",
                     "name" => "full_name",
-                    "value" => $model_info->full_name,
+                    "value" => isset($login_user) ? $login_user->first_name . " " . $login_user->last_name : "",
                     "class" => "form-control",
                     "placeholder" => app_lang('full_name'),
+                    "autofocus" => true,
                     "data-rule-required" => true,
                     "data-msg-required" => app_lang("field_required"),
                 ));
@@ -32,7 +41,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="form-group">
         <div class="row">
             <label for="email" class="col-md-3"><?php echo app_lang('email'); ?></label>
@@ -41,7 +50,7 @@
                 echo form_input(array(
                     "id" => "email",
                     "name" => "email",
-                    "value" => $model_info->email,
+                    "value" => isset($login_user) ? $login_user->email : "",
                     "class" => "form-control",
                     "placeholder" => app_lang('email'),
                     "data-rule-required" => true,
@@ -62,26 +71,10 @@
                 echo form_input(array(
                     "id" => "phone",
                     "name" => "phone",
-                    "value" => $model_info->phone,
+                    "value" => "",
                     "class" => "form-control",
                     "placeholder" => app_lang('phone')
                 ));
-                ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row">
-            <label for="preferred_contact" class="col-md-3"><?php echo app_lang('preferred_contact'); ?></label>
-            <div class="col-md-9">
-                <?php
-                echo form_dropdown(
-                    "preferred_contact",
-                    array("email" => "Email", "phone" => "Phone"),
-                    $model_info->preferred_contact,
-                    "class='select2 validate-hidden' data-rule-required='true' data-msg-required='" . app_lang('field_required') . "'"
-                );
                 ?>
             </div>
         </div>
@@ -95,28 +88,10 @@
                 echo form_input(array(
                     "id" => "country",
                     "name" => "country",
-                    "value" => $model_info->country,
+                    "value" => "",
                     "class" => "form-control",
-                    "placeholder" => app_lang('country'),
-                    "data-rule-required" => true,
-                    "data-msg-required" => app_lang("field_required"),
+                    "placeholder" => app_lang('country')
                 ));
-                ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row">
-            <label for="property_purpose" class="col-md-3"><?php echo app_lang('property_purpose'); ?></label>
-            <div class="col-md-9">
-                <?php
-                echo form_dropdown(
-                    "property_purpose",
-                    array("Personal Use" => "Personal Use", "Investment" => "Investment", "Both" => "Both"),
-                    $model_info->property_purpose,
-                    "class='select2 validate-hidden' data-rule-required='true' data-msg-required='" . app_lang('field_required') . "'"
-                );
                 ?>
             </div>
         </div>
@@ -130,24 +105,24 @@
                 echo form_input(array(
                     "id" => "preferred_location",
                     "name" => "preferred_location",
-                    "value" => $model_info->preferred_location,
+                    "value" => "",
                     "class" => "form-control",
-                    "placeholder" => app_lang('preferred_location'),
-                    "data-rule-required" => true,
-                    "data-msg-required" => app_lang("field_required"),
+                    "placeholder" => app_lang('preferred_location')
                 ));
                 ?>
             </div>
         </div>
     </div>
 
-    <!-- Planned Development Fields --> 
-    <div id="planned-fields" class="<?php echo $model_info->inquiry_type === 'planned' ? '' : 'hide'; ?>">
+    <!-- Planned Development Fields -->
+    <div id="planned-fields" class="hide">
+        <div class="section-title"><?php echo app_lang('planned_development_details'); ?></div>
+
         <div class="form-group">
             <div class="row">
                 <label for="preferred_development" class="col-md-3"><?php echo app_lang('preferred_development'); ?></label>
                 <div class="col-md-9">
-                    <?php
+                   <?php
                     echo form_input(array(
                         "id" => "preferred_development",
                         "name" => "preferred_development",
@@ -164,14 +139,16 @@
             <div class="row">
                 <label for="property_type" class="col-md-3"><?php echo app_lang('property_type'); ?></label>
                 <div class="col-md-9">
-                    <?php
-                    echo form_input(array(
-                        "id" => "property_type",
-                        "name" => "property_type",
-                        "value" => $model_info->property_type,
-                        "class" => "form-control",
-                        "placeholder" => app_lang('property_type')
-                    ));
+                   <?php
+                    echo form_dropdown(
+                            "property_type", array(
+                        "" => "--",
+                        "single_family" => app_lang("single_family_home"),
+                        "townhouse" => app_lang("townhouse"),
+                        "apartment" => app_lang("apartment"),
+                        "other" => app_lang("other"),
+                            ), "", "class='select2 form-control'"
+                    );
                     ?>
                 </div>
             </div>
@@ -183,10 +160,10 @@
                 <div class="col-md-9">
                     <?php
                     echo form_dropdown(
-                        "bedrooms",
-                        array("2" => "2", "3" => "3", "4" => "4", "5+" => "5+"),
-                        $model_info->bedrooms,
-                        "class='select2'"
+                            "bedrooms",
+                            array("2" => "2", "3" => "3", "4" => "4", "5+" => "5+"),
+                            "",
+                            "class='select2 form-control'"
                     );
                     ?>
                 </div>
@@ -197,13 +174,11 @@
             <div class="row">
                 <label for="additional_features" class="col-md-3"><?php echo app_lang('additional_features'); ?></label>
                 <div class="col-md-9">
-                    <?php
+                   <?php
                     echo form_textarea(array(
                         "id" => "additional_features",
-                        "name" => "additional_features",
                         "value" => $model_info->additional_features,
                         "class" => "form-control",
-                        "placeholder" => app_lang('additional_features')
                     ));
                     ?>
                 </div>
@@ -211,17 +186,18 @@
         </div>
     </div>
 
-    <!-- Custom Build Fields --> 
-    <div id="custom-fields" class="<?php echo $model_info->inquiry_type === 'custom' ? '' : 'hide'; ?>">
+    <!-- Custom Build Fields -->
+    <div id="custom-fields" class="hide">
+        <div class="section-title"><?php echo app_lang('custom_build_details'); ?></div>
+
         <div class="form-group">
             <div class="row">
                 <label for="plot_size" class="col-md-3"><?php echo app_lang('plot_size'); ?></label>
                 <div class="col-md-9">
                     <?php
                     echo form_input(array(
-                        "id" => "plot_size",
+                       "id" => "plot_size",
                         "name" => "plot_size",
-                        "value" => $model_info->plot_size,
                         "class" => "form-control",
                         "placeholder" => app_lang('plot_size')
                     ));
@@ -236,11 +212,16 @@
                 <div class="col-md-9">
                     <?php
                     echo form_dropdown(
-                        "property_style",
-                        array("Modern" => "Modern", "Traditional" => "Traditional", "Minimalist" => "Minimalist"),
-                        $model_info->property_style,
-                        "class='select2'"
-                    );
+                            "property_style",
+                            array(
+                                "modern" => app_lang("modern"),
+                                "traditional" => app_lang("traditional"),
+                                "minimalist" => app_lang("minimalist"),
+                                "other" => app_lang("other")
+                            ),
+                            "",
+                            "class='select2 form-control'"
+                        );
                     ?>
                 </div>
             </div>
@@ -252,10 +233,10 @@
                 <div class="col-md-9">
                     <?php
                     echo form_dropdown(
-                        "bathrooms",
-                        array("1" => "1", "2" => "2", "3" => "3", "4+" => "4+"),
-                        $model_info->bathrooms,
-                        "class='select2'"
+                            "bathrooms",
+                            array("1" => "1", "2" => "2", "3" => "3", "4+" => "4+"),
+                            "",
+                            "class='select2 form-control'"
                     );
                     ?>
                 </div>
@@ -266,11 +247,9 @@
             <div class="row">
                 <label for="specific_requirements" class="col-md-3"><?php echo app_lang('specific_requirements'); ?></label>
                 <div class="col-md-9">
-                    <?php
+                   <?php
                     echo form_textarea(array(
                         "id" => "specific_requirements",
-                        "name" => "specific_requirements",
-                        "value" => $model_info->specific_requirements,
                         "class" => "form-control",
                         "placeholder" => app_lang('specific_requirements')
                     ));
@@ -283,16 +262,15 @@
             <div class="row">
                 <label for="expected_timeline" class="col-md-3"><?php echo app_lang('expected_timeline'); ?></label>
                 <div class="col-md-9">
-                    <?php
+                   <?php
                     echo form_dropdown(
-                        "expected_timeline",
-                        array(
-                            "6 months" => "6 months",
-                            "12 months" => "12 months",
-                            "18 months" => "18 months",
-                            "24+ months" => "24+ months"
-                        ),
-                        $model_info->expected_timeline,
+                            "expected_timeline",
+                            array(
+                                "6_months" => "6 " . app_lang("months"),
+                                "12_months" => "12 " . app_lang("months"),
+                                "18_months" => "18 " . app_lang("months"),
+                                "24_months" => "24 " . app_lang("months")
+                            ),
                         "class='select2'"
                     );
                     ?>
@@ -301,7 +279,9 @@
         </div>
     </div>
 
-    <!-- Common Fields --> 
+    <!-- Common Fields -->
+    <div class="section-title"><?php echo app_lang('optional_questions'); ?></div>
+
     <div class="form-group">
         <div class="row">
             <label for="budget_range" class="col-md-3"><?php echo app_lang('budget_range'); ?></label>
@@ -310,7 +290,6 @@
                 echo form_input(array(
                     "id" => "budget_range",
                     "name" => "budget_range",
-                    "value" => $model_info->budget_range,
                     "class" => "form-control",
                     "placeholder" => app_lang('budget_range')
                 ));
@@ -324,11 +303,11 @@
             <label for="financing_interest" class="col-md-3"><?php echo app_lang('financing_interest'); ?></label>
             <div class="col-md-9">
                 <?php
-                echo form_dropdown(
-                    "financing_interest",
-                    array("Yes" => "Yes", "No" => "No"),
-                    $model_info->financing_interest,
-                    "class='select2'"
+                echo form_dropdown("financing_interest",
+                        array(
+                            "yes" => app_lang("yes"),
+                            "no" => app_lang("no"),
+                        ), "", "class='select2 form-control'"
                 );
                 ?>
             </div>
@@ -343,7 +322,6 @@
                 echo form_textarea(array(
                     "id" => "additional_notes",
                     "name" => "additional_notes",
-                    "value" => $model_info->additional_notes,
                     "class" => "form-control",
                     "placeholder" => app_lang('additional_notes')
                 ));
@@ -354,30 +332,64 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-bs-dismiss="modal"><span class="fa fa-close"></span> <?php echo app_lang('close'); ?></button>
-    <button type="submit" class="btn btn-primary"><span class="fa fa-check-circle"></span> <?php echo app_lang('save'); ?></button>
+    <button type="button" class="btn btn-default" data-bs-dismiss="modal"><span data-feather="x" class="icon-16"></span> <?php echo app_lang('close'); ?></button>
+    <button type="submit" class="btn btn-primary"><span data-feather="check-circle" class="icon-16"></span> <?php echo app_lang('save'); ?></button>
 </div>
+
 <?php echo form_close(); ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
         $("#project-inquiry-form").appForm({
+            isModal: true,
+            closeModalOnSuccess: true,
+            onModalClose: function () {
+                $("#inquiry-table").appTable({reload: true});
+            },
+            
             onSuccess: function (result) {
-                $("#project-inquiry-table").appTable({newData: result.data, dataId: result.id});
+                if (result.success) {
+                    appAlert.success(result.message, {duration: 10000});
+                    setTimeout(function() {
+                        window.location.href = "<?php echo get_uri('project_inquiry/client_view/'); ?>" + result.id;
+                    }, 1000);
+                } else {
+                    appAlert.error(result.message);
+                }
             }
         });
+
+        $(".select2").select2();
         
-        $("#project-inquiry-form .select2").select2(); 
-        
-        // Show/hide fields based on inquiry type
-        $("#inquiry_type").change(function() {
-            if ($(this).val() === "planned") {
+        // Hide both sections by default
+        $("#planned-fields").addClass("hide");
+        $("#custom-fields").addClass("hide");
+
+
+        // Show/hide appropriate fields based on inquiry type
+        $("#inquiry_type").on("change", function () {
+            var value = $(this).val();
+            
+            if (value === "planned") {
                 $("#planned-fields").removeClass("hide");
                 $("#custom-fields").addClass("hide");
+            } else if (value === "custom") {
+                $("#custom-fields").removeClass("hide");
+                $("#planned-fields").addClass("hide");
             } else {
                 $("#planned-fields").addClass("hide");
+                $("#custom-fields").addClass("hide");
+            }
+            
+            // Initialize the form on page load
+            // Only show relevant section if a type is already selected
+            var selectedType = $("#inquiry_type").val();
+            if (selectedType === "planned") {
+                $("#planned-fields").removeClass("hide");
+            } else if (selectedType === "custom") {
                 $("#custom-fields").removeClass("hide");
             }
+            
         });
     });
 </script>

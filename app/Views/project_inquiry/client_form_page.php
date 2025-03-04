@@ -5,7 +5,6 @@
         </div>
         <div class="card-body">
             <?php echo form_open(get_uri("project_inquiry/save"), array("id" => "project-inquiry-form", "class" => "general-form", "role" => "form")); ?>
-            <?php echo view("project_inquiry/client_form_page_js"); ?>
             
             <!-- Inquiry Type Selection -->
             <div class="form-group">
@@ -591,6 +590,38 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Show/hide fields based on inquiry type selection
+        $("#inquiry_type").on("change", function () {
+            var selectedType = $(this).val();
+            
+            // Hide all conditional fields first
+            $("#planned-fields").addClass("hide");
+            $("#custom-fields").addClass("hide");
+            
+            // Show the relevant fields based on selection
+            if (selectedType === "planned") {
+                $("#planned-fields").removeClass("hide");
+            } else if (selectedType === "custom") {
+                $("#custom-fields").removeClass("hide");
+            }
+        });
+        
+        // Initialize the form on page load
+        // Hide both sections by default
+        $("#planned-fields").addClass("hide");
+        $("#custom-fields").addClass("hide");
+        
+        // Only show relevant section if a type is already selected
+        var selectedType = $("#inquiry_type").val();
+        if (selectedType === "planned") {
+            $("#planned-fields").removeClass("hide");
+        } else if (selectedType === "custom") {
+            $("#custom-fields").removeClass("hide");
+        }
+    });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

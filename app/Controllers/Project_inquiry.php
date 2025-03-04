@@ -17,6 +17,10 @@ class Project_inquiry extends Security_Controller {
     //this method will call by public url
     function save() {
         $this->init();
+        
+        // Add client_id if user is logged in as client
+        $client_id = ($this->login_user && $this->login_user->user_type == "client") ? $this->login_user->client_id : 0;
+        
         $inquiry_data = array(
             "inquiry_type" => $this->request->getPost('inquiry_type'),
             "full_name" => $this->request->getPost('full_name'),
@@ -28,7 +32,7 @@ class Project_inquiry extends Security_Controller {
             "preferred_location" => $this->request->getPost('preferred_location'),
             "preferred_development" => $this->request->getPost('preferred_development'),
             "property_type" => $this->request->getPost('property_type'),
-            "bedrooms" => $this->request->getPost('bedrooms'),
+            "bedrooms" => $this->request->getPost('bedrooms') ? $this->request->getPost('bedrooms') : "",
             "additional_features" => $this->request->getPost('additional_features'),
             "plot_size" => $this->request->getPost('plot_size'),
             "property_style" => $this->request->getPost('property_style'),
@@ -36,17 +40,13 @@ class Project_inquiry extends Security_Controller {
             "specific_requirements" => $this->request->getPost('specific_requirements'),
             "budget_range" => $this->request->getPost('budget_range'),
             "expected_timeline" => $this->request->getPost('expected_timeline'),
-            "financing_interest" => $this->request->getPost('financing_interest'),
+            "financing_interest" => $this->request->getPost('financing_options'),
             "additional_notes" => $this->request->getPost('additional_notes'),
             "message" => $this->request->getPost('message'),
-            "created_at" => get_current_utc_time(),
-            "created_by" => $this->login_user ? $this->login_user->id : 0
+            "created_at" => get_current_utc_time(),            
+            "created_by" => $this->login_user ? $this->login_user->id : 0,
+            "client_id" => $client_id
         );
-
-        // Add client_id if user is logged in as client
-        if ($this->login_user && $this->login_user->user_type == "client") {
-            $inquiry_data["client_id"] = $this->login_user->client_id;
-        }
 
         $inquiry_id = $this->Project_inquiry_model->ci_save($inquiry_data);
         if ($inquiry_id) {
@@ -73,7 +73,6 @@ class Project_inquiry extends Security_Controller {
     }
 
     function modal_form() {
-        $this->access_only_team_members();
         
         $view_data['model_info'] = $this->Project_inquiry_model->get_one($this->request->getPost('id'));
         
@@ -81,7 +80,7 @@ class Project_inquiry extends Security_Controller {
     }
 
     function admin_save() {
-        $this->access_only_team_members();
+        #$this->access_only_team_members();
         
         $this->validate_submitted_data(array(
             "full_name" => "required",
@@ -161,32 +160,32 @@ class Project_inquiry extends Security_Controller {
         $list_data = $this->Project_inquiry_model->get_details($options)->getResult();
         $result = array();
         foreach ($list_data as $data) {
-            $result[] = $this->_make_client_row($data);
+            $result[] = $this->_make_row($data);
         }
         echo json_encode(array("data" => $result));
     }
     
-    private function _make_client_row($data) {
-        $status = "<span class='label label-default'>" . app_lang('pending') . "</span>";
-        if (isset($data->status)) {
-            if ($data->status === "in_progress") {
-                $status = "<span class='label label-warning'>" . app_lang('in_progress') . "</span>";
-            } else if ($data->status === "completed") {
-                $status = "<span class='label label-success'>" . app_lang('completed') . "</span>";
-            } else if ($data->status === "declined") {
-                $status = "<span class='label label-danger'>" . app_lang('declined') . "</span>";
-            }
-        }
+    // private function _make_client_row($data) {
+    //     $status = "<span class='label label-default'>" . app_lang('pending') . "</span>";
+    //     if (isset($data->status)) {
+    //         if ($data->status === "in_progress") {
+    //             $status = "<span class='label label-warning'>" . app_lang('in_progress') . "</span>";
+    //         } else if ($data->status === "completed") {
+    //             $status = "<span class='label label-success'>" . app_lang('completed') . "</span>";
+    //         } else if ($data->status === "declined") {
+    //             $status = "<span class='label label-danger'>" . app_lang('declined') . "</span>";
+    //         }
+    //     }
         
-        return array(
-            $data->id,
-            format_to_date($data->created_at),
-            $data->property_purpose ? $data->property_purpose : "",
-            $data->preferred_location ? $data->preferred_location : "",
-            $status,
-            modal_anchor(get_uri("project_inquiry/client_view/" . $data->id), "<i class='fa fa-eye'></i>", array("class" => "edit", "title" => app_lang('view'), "data-post-id" => $data->id))
-        );
-    }
+    //     return array(
+    //         $data->id,
+    //         format_to_date($data->created_at),
+    //         $data->property_purpose ? $data->property_purpose : "",
+    //         $data->preferred_location ? $data->preferred_location : "",
+    //         $status,
+    //         modal_anchor(get_uri("project_inquiry/client_view/" . $data->id), "<i class='fa fa-eye'></i>", array("class" => "edit", "title" => app_lang('view'), "data-post-id" => $data->id))
+    //     );
+    // }
     
     // Client form page
     function client_form() {
@@ -195,6 +194,12 @@ class Project_inquiry extends Security_Controller {
             $view_data['login_user'] = $this->login_user;
         }
         return $this->template->rander("project_inquiry/client_form_page", $view_data);
+    }
+    
+    // Client modal form
+    function client_modal_form() {
+        $view_data['model_info'] = $this->Project_inquiry_model->get_one($this->request->getPost('id'));
+        return $this->template->view('project_inquiry/modal_form', $view_data);
     }
     
     // Client view inquiry
@@ -255,7 +260,7 @@ class Project_inquiry extends Security_Controller {
     }
 
     function view($inquiry_id = 0) {
-        $this->access_only_team_members();
+       # $this->access_only_team_members();
 
         if (!$inquiry_id) {
             show_404();

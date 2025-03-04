@@ -192,6 +192,11 @@ class Left_menu {
 
                 $sidebar_menu["tickets"] = array("name" => "tickets", "url" => "tickets", "class" => "life-buoy", "badge" => $ticket_badge, "badge_class" => "bg-primary");
             }
+            
+            // Project Inquiry menu for staff members
+            if ($this->ci->login_user->is_admin || get_array_value($permissions, "project_inquiry") !== "no") {
+                $sidebar_menu["project_inquiry"] = array("name" => "project_inquiry", "url" => "project_inquiry", "class" => "file-plus");
+            }
 
 
             if (get_setting("module_expense") == "1" && ($this->ci->login_user->is_admin || $access_expense)) {
@@ -358,6 +363,10 @@ class Left_menu {
 
             if ($this->ci->can_client_access("ticket")) {
                 $sidebar_menu[] = array("name" => "tickets", "url" => "tickets", "class" => "life-buoy");
+            }
+            
+            if ($this->ci->can_client_access("project_inquiry")) {
+                $sidebar_menu[] = array("name" => "project_inquiry", "url" => "project_inquiry", "class" => "file-plus");
             }
 
             if ($this->ci->can_client_access("announcement")) {
