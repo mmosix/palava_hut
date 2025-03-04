@@ -2,9 +2,13 @@
     <div class="card">
         <div class="page-title clearfix">
             <h1><?php echo app_lang('project_inquiry_details'); ?></h1>
-            <div class="title-button-group">
-                <?php echo anchor(get_uri("project_inquiry"), app_lang("back_to_list"), array("class" => "btn btn-default")); ?>
-            </div>
+            <div class="title-button-group">                
+                <?php if ($login_user->user_type == "staff") { ?>
+                    <?php echo anchor(get_uri("project_inquiry"), app_lang("back_to_list"), array("class" => "btn btn-default")); ?>
+                <?php } else { ?>
+                    <?php echo anchor(get_uri("project_inquiry/client_index"), app_lang("back_to_list"), array("class" => "btn btn-default")); ?>
+                <?php } ?>
+            </div>            
         </div>
         <div class="card-body">
             <div class="row">
