@@ -29,6 +29,7 @@ $lang["custom_build"] = "Custom Build";
 $lang["project_type"] = "Project Type";
 $lang["inquiry_details"] = "Inquiry Details";
 $lang["inquiry_type"] = "Inquiry Type";
+$lang["project_inquiry"] = "Project Inquiries";
 
 // General Information Section
 $lang["general_information"] = "General Information";

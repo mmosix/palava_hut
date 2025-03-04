@@ -113,7 +113,7 @@ class Crud_model extends Model {
         $db_fields = $this->db->getFieldNames($this->table);
         foreach ($db_fields as $field) {
             if ($field !== "id") {
-                array_push($this->allowedFields, $field);
+                $this->allowedFields[] = $field;
             }
         }
 
@@ -127,11 +127,19 @@ class Crud_model extends Model {
         if ($id) {
             $id = $this->_get_clean_value($id);
             if (!$id) {
-                return false; //invalid id
+                // If id is not provided, try to find a unique identifier
+                $where = $data;
+                $existing_record = $this->get_one_where($where);
+                if ($existing_record && isset($existing_record->id)) {
+                    $id = $existing_record->id;
+                } else {
+                    return false; //invalid id
+                }
             }
 
             //update
-            $where = array("id" => $id);
+            $where = array("id" => $id); // Use the found or provided ID
+
 
             //to log an activity we have to know the changes. now collect the data before update anything
             if ($this->log_activity) {
@@ -280,14 +288,16 @@ class Crud_model extends Model {
     }
 
     function update_where($data = array(), $where = array()) {
-        if (count($where)) {
-            $where = $this->_get_clean_value($where);
-
-            if ($this->db_builder->update($data, $where)) {
-                $id = get_array_value($where, "id");
-                if ($id) {
-                    return $id;
-                } else {
+        if (!empty($where)) {
+            $clean_where = $this->_get_clean_value($where);
+            if (!empty($clean_where)) {
+                if ($this->db_builder->update($data, $clean_where)) {
+                    $id = get_array_value($clean_where, "id");
+                    if ($id) {
+                        return $id;
+                    } else {
+                        return true;
+                    }
                     return true;
                 }
             }

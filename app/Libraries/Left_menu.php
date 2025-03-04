@@ -59,6 +59,11 @@ class Left_menu {
             if ($this->ci->login_user->is_admin || $access_client) {
                 $sidebar_menu["clients"] = array("name" => "clients", "url" => "clients", "class" => "briefcase");
             }
+            
+            // Project Inquiry menu for staff members
+            if (get_setting("module_proposal") && ($this->ci->login_user->is_admin || $access_proposal)) {
+                $sidebar_menu["project_inquiry"] = array("name" => "project_inquiry", "url" => "project_inquiry", "class" => "file-plus");
+            }
 
 
             if ($this->ci->login_user->is_admin || !get_array_value($this->ci->login_user->permissions, "do_not_show_projects")) {
@@ -141,9 +146,9 @@ class Left_menu {
 
             $team_submenu = array();
 
-            if (get_array_value($this->ci->login_user->permissions, "hide_team_members_list") != "1") {
-                $team_submenu["team_members"] = array("name" => "team_members", "url" => "team_members", "class" => "users");
-            }
+            // if (get_array_value($this->ci->login_user->permissions, "hide_team_members_list") != "1") {
+            //     $team_submenu["team_members"] = array("name" => "team_members", "url" => "team_members", "class" => "users");
+            // }
 
 
             if (get_setting("module_attendance") == "1" && ($this->ci->login_user->is_admin || $access_timecard)) {
@@ -192,12 +197,6 @@ class Left_menu {
 
                 $sidebar_menu["tickets"] = array("name" => "tickets", "url" => "tickets", "class" => "life-buoy", "badge" => $ticket_badge, "badge_class" => "bg-primary");
             }
-            
-            // Project Inquiry menu for staff members
-            if ($this->ci->login_user->is_admin || get_array_value($permissions, "project_inquiry") !== "no") {
-                $sidebar_menu["project_inquiry"] = array("name" => "project_inquiry", "url" => "project_inquiry", "class" => "file-plus");
-            }
-
 
             if (get_setting("module_expense") == "1" && ($this->ci->login_user->is_admin || $access_expense)) {
                 $sidebar_menu["expenses"] = array("name" => "expenses", "url" => "expenses", "class" => "arrow-right-circle");
@@ -326,7 +325,11 @@ class Left_menu {
             if ($this->ci->can_client_access("message") && get_setting("client_message_users")) {
                 $sidebar_menu[] = array("name" => "messages", "url" => "messages", "class" => "message-circle", "badge" => count_unread_message());
             }
-
+            
+            if ($this->ci->can_client_access("project_inquiry", false)) {
+                $sidebar_menu[] = array("name" => "project_inquiry", "url" => "project_inquiry/client_index", "class" => "file-plus");
+            }
+            
             if ($this->ci->can_client_access("project", false)) {
                 $sidebar_menu[] = array("name" => "projects", "url" => "projects/all_projects", "class" => "command");
             }
@@ -339,9 +342,9 @@ class Left_menu {
                 $sidebar_menu[] = array("name" => "proposals", "url" => "proposals", "class" => "coffee");
             }
 
-            if ($this->ci->can_client_access("estimate")) {
-                $sidebar_menu[] = array("name" => "estimates", "url" => "estimates", "class" => "file");
-            }
+            // if ($this->ci->can_client_access("estimate")) {
+            //     $sidebar_menu[] = array("name" => "estimates", "url" => "estimates", "class" => "file");
+            // }
 
             if ($this->ci->can_client_access("subscription")) {
                 $sidebar_menu["subscriptions"] = array("name" => "subscriptions", "url" => "subscriptions", "class" => "repeat");
@@ -363,10 +366,6 @@ class Left_menu {
 
             if ($this->ci->can_client_access("ticket")) {
                 $sidebar_menu[] = array("name" => "tickets", "url" => "tickets", "class" => "life-buoy");
-            }
-            
-            if ($this->ci->can_client_access("project_inquiry")) {
-                $sidebar_menu[] = array("name" => "project_inquiry", "url" => "project_inquiry", "class" => "file-plus");
             }
 
             if ($this->ci->can_client_access("announcement")) {
