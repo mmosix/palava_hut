@@ -30,7 +30,8 @@ class Settings_model extends Crud_model {
             $fields["type"] = $type;
             return $this->ci_save($fields);
         } else {
-            return $this->ci_save($fields, array("setting_name" => $setting_name));
+            $where = array("setting_name" => $setting_name);
+            return $this->update_where($fields, $where);
         }
     }
 
