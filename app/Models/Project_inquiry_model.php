@@ -13,15 +13,23 @@ class Project_inquiry_model extends Crud_model {
         $inquiries_table = $this->db->prefixTable('project_inquiries');
         $users_table = $this->db->prefixTable('users');
 
-        $where = "";
+        $where = array();
         $id = get_array_value($options, "id");
         if ($id) {
-            $where .= " AND $inquiries_table.id=$id";
+            $where[] = " $inquiries_table.id=$id";
         }
         
         $user_id = get_array_value($options, "user_id");
         if ($user_id) {
-            $where .= " AND $inquiries_table.created_by=$user_id";
+            $where[] = " $inquiries_table.created_by = $user_id";
+        }
+        $email = get_array_value($options, "email");
+        if ($email) {
+            $where[] = " $inquiries_table.email LIKE '%$email%'";
+        }
+        $where_clause = "";
+        if(count($where)){
+            $where_clause = " AND ".implode(" OR ", $where);
         }
 
         $sql = "SELECT $inquiries_table.*, CONCAT($inquiries_table.created_at) AS created_at_formatted,
@@ -30,8 +38,7 @@ class Project_inquiry_model extends Crud_model {
             $users_table.user_type,
             $users_table.email
             FROM $inquiries_table
-            LEFT JOIN $users_table ON $users_table.id = $inquiries_table.created_by
-            WHERE 1 $where";
+            LEFT JOIN $users_table ON $users_table.id = $inquiries_table.created_by WHERE 1 $where_clause";
         return $this->db->query($sql);
     }
 

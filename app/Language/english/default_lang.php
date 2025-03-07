@@ -1,5 +1,26 @@
 <?php
 
+/* Get Started Form Labels */
+$lang["property_purpose"] = "Purpose of Property";
+$lang["preferred_location"] = "Preferred Location";
+$lang["preferred_development"] = "Preferred Development";
+$lang["property_type"] = "Property Type";
+$lang["property_style"] = "Property Style";
+$lang["plot_size"] = "Plot Size";
+$lang["bedrooms"] = "Bedrooms";
+$lang["bathrooms"] = "Bathrooms";
+$lang["house_details"] = "House Details";
+$lang["timeline"] = "Expected Timeline";
+$lang["budget_range"] = "Budget Range";
+$lang["additional_features"] = "Additional Features";
+$lang["additional_features_placeholder"] = "List any additional features or preferences (e.g., pool, outdoor space, solar power, smart home tech)";
+$lang["financing_interest"] = "Interested in Financing Options?";
+$lang["additional_notes"] = "Additional Notes";
+$lang["additional_notes_placeholder"] = "Any additional notes or special requests";
+$lang["tell_us_about_your_project"] = "Tell us about your project";
+$lang["inquiry_type"] = "Type of Project";
+$lang["get_started"] = "Get Started";
+
 $lang["notification_task_assigned"] = "Assigned a task to %s";
 
 // Project Inquiry Form Language Declarations 
@@ -31,6 +52,10 @@ $lang["inquiry_details"] = "Inquiry Details";
 $lang["inquiry_type"] = "Inquiry Type";
 $lang["project_inquiry"] = "Project Inquiries";
 $lang["back_to_list"] = "Back to List";
+
+
+$lang['you_havent_submitted_project_inquiry'] = "You haven't submitted any project inquiry yet.";
+$lang['submit_project_inquiry'] = "Submit Project Inquiry";
 
 // General Information Section
 $lang["general_information"] = "General Information";

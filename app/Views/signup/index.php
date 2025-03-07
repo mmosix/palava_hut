@@ -33,13 +33,13 @@
                                 <div class="form-group">
                                     <label for="email" class="col-md-12"><?php echo app_lang('input_your_email'); ?></label>
                                     <div class="col-md-12">
-                                        <?php
-                                        echo form_input(array(
+                                        <?php echo form_input(array(
                                             "id" => "email",
                                             "name" => "email",
                                             "class" => "form-control p10",
                                             "autofocus" => true,
                                             "placeholder" => app_lang('email'),
+                                            "value" => $email,
                                             "data-rule-email" => true,
                                             "data-msg-email" => app_lang("enter_valid_email"),
                                             "data-rule-required" => true,
@@ -56,6 +56,7 @@
                                         echo form_input(array(
                                             "id" => "first_name",
                                             "name" => "first_name",
+                                            "value" => $first_name,
                                             "class" => "form-control",
                                             "autofocus" => true,
                                             "data-rule-required" => true,
@@ -76,6 +77,7 @@
                                             "id" => "last_name",
                                             "name" => "last_name",
                                             "class" => "form-control",
+                                            "value" => $last_name,
                                             "data-rule-required" => true,
                                             "data-msg-required" => app_lang("field_required"),
                                         ));
@@ -148,6 +150,7 @@
                                                 "name" => "email",
                                                 "class" => "form-control",
                                                 "autofocus" => true,
+                                                "value" => $email,
                                                 "data-rule-email" => true,
                                                 "data-msg-email" => app_lang("enter_valid_email"),
                                                 "data-rule-required" => true,

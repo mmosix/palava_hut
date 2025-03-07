@@ -1,0 +1,46 @@
+# CodeIgniter 4
+/writable/
+/vendor/
+/public/uploads/
+
+# Environment file
+.env
+app/.env
+
+# FTP configuration file
+sftp-config.json
+
+# Composer
+composer.lock
+
+# PHP-specific
+*.phar
+/temp/
+
+# Logs
+/writable/logs/*
+!/writable/logs/.gitkeep
+
+# Dependency manager (Yarn/npm)
+node_modules/
+package-lock.json
+yarn-error.log
+
+# Cache files
+.phpunit.result.cache
+.cache
+
+#IDE
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Other
+/public/assets/files/uploads/
+/public/assets/uploads/

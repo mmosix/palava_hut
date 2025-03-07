@@ -24,6 +24,9 @@ class Signup extends App_Controller {
         $view_data["type"] = "client";
         $view_data["signup_type"] = "new_client";
         $view_data["signup_message"] = app_lang("create_an_account_as_a_new_client");
+        $view_data["email"] = $this->request->getGet("email") ? $this->request->getGet("email") : "";
+        $view_data["first_name"] = $this->request->getGet("first_name") ? $this->request->getGet("first_name") : "";
+        $view_data["last_name"] = $this->request->getGet("last_name") ? $this->request->getGet("last_name") : "";
 
         //check if the email verification before signup is active
         if (get_setting("verify_email_before_client_signup")) {
@@ -57,6 +60,7 @@ class Signup extends App_Controller {
             $view_data["signup_type"] = "invitation";
             $view_data["type"] = $type;
             $view_data["signup_key"] = $signup_key;
+            $view_data["email"] = $email;
             $view_data["role_id"] = $role_id;
             return $this->template->view("signup/index", $view_data);
         } else {
@@ -343,6 +347,7 @@ class Signup extends App_Controller {
                 $view_data["signup_type"] = "verify_email";
                 $view_data["signup_message"] = app_lang("please_continue_your_signup_process");
                 $view_data["key"] = clean_data($key);
+                $view_data["email"] = $email;
 
                 return $this->template->view("signup/index", $view_data);
             } else {

@@ -156,7 +156,7 @@ class Project_inquiry extends Security_Controller {
     function client_list_data() {
         $this->access_only_clients();
         
-        $options = array("user_id" => $this->login_user->id);
+        $options = array("user_id" => $this->login_user->id, "email" => $this->login_user->email);
         $list_data = $this->Project_inquiry_model->get_details($options)->getResult();
         $result = array();
         foreach ($list_data as $data) {
